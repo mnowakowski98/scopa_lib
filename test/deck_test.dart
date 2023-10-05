@@ -17,6 +17,7 @@ void main() {
 
     test('has 4 suites', () {
       final deck = Deck();
+
       final knownSuites = <Suite>[];
       final suites = deck.cards.fold(0, (count, card) {
         if (knownSuites.contains(card.suite)) {
@@ -32,6 +33,7 @@ void main() {
 
     test('has only unique cards', () {
       final deck = Deck();
+
       final seenCards = <String>{};
       for (final card in deck.cards) {
         final isUnique = seenCards.add('${card.suite}-${card.value}');
@@ -43,6 +45,7 @@ void main() {
     // available cards, it doesn't
     test('can not be modified once created', () {
       final deck = Deck();
+
       expect(deck.cards.add, throwsNoSuchMethodError);
       expect(deck.cards.remove, throwsNoSuchMethodError);
     });
@@ -51,6 +54,7 @@ void main() {
   group('Card selection', () {
     test('can get one card by suite and value', () {
       final deck = Deck();
+
       final testCard1 = deck.getCard(Suite.bastoni, 5);
       final testCard2 = deck.getCard(Suite.denari, 9);
       final testCard3 = deck.getCard(Suite.spade, 3);
@@ -63,6 +67,18 @@ void main() {
 
       expect(testCard3.suite, equals(Suite.spade));
       expect(testCard3.value, equals(3));
+    });
+
+    test('can get all cards in a suite by suite', () {
+      final deck = Deck();
+
+      final bastonis = deck.getSuiteCards(Suite.bastoni);
+      expect(bastonis.isEmpty, isFalse);
+      expect(bastonis.every((card) => card.suite == Suite.bastoni), isTrue);
+
+      final coppes = deck.getSuiteCards(Suite.coppe);
+      expect(bastonis.isEmpty, isFalse);
+      expect(coppes.every((card) => card.suite == Suite.coppe), isTrue);
     });
   });
 }

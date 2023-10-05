@@ -33,7 +33,7 @@ class Deck {
   }
 
   /// Retrieves a set of [Card]s by [Suite].
-  Iterable<Card> getSuiteCards(Suite suite) {
-    return cards.where((card) => card.suite == suite);
+  Set<Card> getSuiteCards(Suite suite) {
+    return cards.where((card) => card.suite == suite).toSet();
   }
 }
