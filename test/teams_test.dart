@@ -31,6 +31,22 @@ void main() {
       expect(team3.incrementScore(5), isFalse);
       expect(team3.incrementScore(7), isTrue);
     });
+
+    test('can check if their players are in other teams', () {
+      final team1 = Team();
+      final team2 = Team();
+
+      final player1 = Player('test');
+      final player2 = Player('test2');
+      final player3 = Player('test');
+
+      team1.players.addAll([player1, player2]);
+      team2.players.addAll([player1, player3]);
+
+      final conflicts = Team.getConflicts(team1, team2);
+      expect(conflicts.length, equals(1));
+      expect(conflicts.first.name, equals('test'));
+    });
   });
 
   group('Players', () {
