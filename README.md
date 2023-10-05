@@ -11,12 +11,25 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A library to manage and play a game of Scopa.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+Complete:
+- TODO: Actually implement stuff
+
+Incomplete:
+- Italian playing card deck
+- Game setup
+- Player and table deck dealing
+- Simulate turns
+- Scoring
+- Customization of game mechanics
+   - Point settings for primiera
+   - Direction of play
+   - Points needed to win
+
+TODO: Expand customization options
 
 ## Getting started
 
@@ -32,8 +45,10 @@ to `/example` folder.
 const like = 'sample';
 ```
 
+<!--
 ## Additional information
 
 TODO: Tell users more about the package: where to find more information, how to 
 contribute to the package, how to file issues, what response they can expect 
 from the package authors, and more.
+-->
