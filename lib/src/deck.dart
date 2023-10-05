@@ -26,8 +26,9 @@ class Deck {
       for (var i = 1; i <= 10; i++) Card(suite, i)
   ];
 
+  /// Retrieves a single [Card] by [Suite] and value.
   Card getCard(Suite suite, int value) {
-    // TODO: Actually implement this
-    return Card(Suite.bastoni, 0);
+    final suiteCards = cards.where((card) => card.suite == suite);
+    return suiteCards.singleWhere((card) => card.value == value);
   }
 }
