@@ -38,6 +38,6 @@ final class Deck {
   }
 
   Set<Card> getValueCards(int value) {
-    throw UnimplementedError();
+    return cards.where((card) => card.value == value).toSet();
   }
 }
