@@ -20,9 +20,26 @@ enum Suite {
 
 /// A collection of [Card]s.
 /// Represents one complete set of unique playing cards.
-class Deck {
-  final List<Card> cards = [
+final class Deck {
+  /// The full set of cards.
+  final Set<Card> cards = Set.unmodifiable([
     for (final suite in Suite.values)
       for (var i = 1; i <= 10; i++) Card(suite, i)
-  ];
+  ]);
+
+  /// Retrieves a single [Card] by [Suite] and value.
+  Card getCard(Suite suite, int value) {
+    final suiteCards = cards.where((card) => card.suite == suite);
+    return suiteCards.singleWhere((card) => card.value == value);
+  }
+
+  /// Retrieves a set of [Card]s by [Suite].
+  Set<Card> getSuiteCards(Suite suite) {
+    return cards.where((card) => card.suite == suite).toSet();
+  }
+
+  /// Retrieves a set of [Card]s by value.
+  Set<Card> getValueCards(int value) {
+    return cards.where((card) => card.value == value).toSet();
+  }
 }
