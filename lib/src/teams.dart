@@ -1,6 +1,7 @@
-/// Types for tracking [Team]s and the players in them
+/// Types for tracking [Team]s and the [Player]s in them
 library;
 
+/// A single player.
 interface class Player {
   final String name;
   Player(this.name);
@@ -12,12 +13,14 @@ interface class Player {
   int get hashCode => name.hashCode;
 }
 
-/// A collection of players and a shared [score]
+/// A collection of [Player]s and a shared [score]
 class Team {
   int _score = 0;
 
   /// The current score for the [Team].
   int get score => _score;
+
+  /// A set of unique [Player]s.
   var players = <Player>{};
 
   /// Add to the [Team]s current [score].
