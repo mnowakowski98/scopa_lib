@@ -25,4 +25,9 @@ class Deck {
     for (final suite in Suite.values)
       for (var i = 1; i <= 10; i++) Card(suite, i)
   ];
+
+  Card getCard(Suite suite, int value) {
+    // TODO: Actually implement this
+    return Card(Suite.bastoni, 0);
+  }
 }
