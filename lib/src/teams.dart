@@ -4,6 +4,12 @@ library;
 interface class Player {
   final String name;
   Player(this.name);
+
+  @override
+  bool operator ==(Object other) => other is Player && other.name == name;
+
+  @override
+  int get hashCode => name.hashCode;
 }
 
 /// A collection of players and a shared [score]
