@@ -11,7 +11,7 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-A library to manage/play a game of Scopa.
+A library to manage and play a game of Scopa.
 
 ## Features
 
@@ -19,10 +19,17 @@ Complete:
 - TODO: Actually implement stuff
 
 Incomplete:
-- Provides a representation of italian playing cards
-- Custom point settings for primiera
-- Simulate turn based gameplay
-- TODO: Go over notes and flush this out
+- Italian playing card deck
+- Game setup
+- Player and table deck dealing
+- Simulate turns
+- Scoring
+- Customization of game mechanics
+   - Point settings for primiera
+   - Direction of play
+   - Points needed to win
+
+TODO: Expand customization options
 
 ## Getting started
 
