@@ -20,7 +20,7 @@ enum Suite {
 
 /// A collection of [Card]s.
 /// Represents one complete set of unique playing cards.
-class Deck {
+final class Deck {
   final Set<Card> cards = Set.unmodifiable([
     for (final suite in Suite.values)
       for (var i = 1; i <= 10; i++) Card(suite, i)
@@ -35,5 +35,9 @@ class Deck {
   /// Retrieves a set of [Card]s by [Suite].
   Set<Card> getSuiteCards(Suite suite) {
     return cards.where((card) => card.suite == suite).toSet();
+  }
+
+  Set<Card> getValueCards(int value) {
+    throw UnimplementedError();
   }
 }

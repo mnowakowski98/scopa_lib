@@ -76,5 +76,13 @@ void main() {
       expect(bastonis.isEmpty, isFalse);
       expect(coppes.every((card) => card.suite == Suite.coppe), isTrue);
     });
+
+    test('can get all cards of a value by value', () {
+      final deck = Deck();
+
+      final ones = deck.getValueCards(1);
+      expect(ones.isEmpty, isFalse);
+      expect(ones.every((card) => card.value == 1), isTrue);
+    });
   });
 }
