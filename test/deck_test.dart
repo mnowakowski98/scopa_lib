@@ -3,17 +3,13 @@ import 'package:test/test.dart';
 
 void main() {
   group('Deck content', () {
-    // Temporarily disable while converting card collection to a proper set
-
-    // test('has 10 cards per suite', () {
-    //   final deck = Deck();
-    //   for (var i = 0; i < deck.cards.length; i += 10) {
-    //     final cardRange = deck.cards.getRange(i, i + 10);
-    //     final firstSuite = cardRange.first.suite;
-    //     final isOneSuite = cardRange.every((card) => card.suite == firstSuite);
-    //     expect(isOneSuite, isTrue);
-    //   }
-    // });
+    test('has 10 cards per suite', () {
+      final deck = Deck();
+      for (final suite in Suite.values) {
+        final suiteCards = deck.getSuiteCards(suite);
+        expect(suiteCards.length, equals(10));
+      }
+    });
 
     test('has 4 suites', () {
       final deck = Deck();
@@ -42,7 +38,7 @@ void main() {
     });
 
     // Enforcing this as the deck library is only designed to represent
-    // available cards, it doesn't
+    // available cards, it doesn't track or care about how each card is used
     test('can not be modified once created', () {
       final deck = Deck();
 
