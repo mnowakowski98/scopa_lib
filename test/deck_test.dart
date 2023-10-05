@@ -36,6 +36,14 @@ void main() {
         expect(isUnique, isTrue);
       }
     });
+
+    // Enforcing this as the deck library is only designed to represent
+    // available cards, it doesn't
+    test('can not be modified once created', () {
+      final deck = Deck();
+      expect(deck.cards.add, throwsNoSuchMethodError);
+      expect(deck.cards.remove, throwsNoSuchMethodError);
+    });
   });
 
   group('Card selection', () {

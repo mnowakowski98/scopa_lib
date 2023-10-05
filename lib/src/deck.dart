@@ -21,10 +21,10 @@ enum Suite {
 /// A collection of [Card]s.
 /// Represents one complete set of unique playing cards.
 class Deck {
-  final List<Card> cards = [
+  final List<Card> cards = List.unmodifiable([
     for (final suite in Suite.values)
       for (var i = 1; i <= 10; i++) Card(suite, i)
-  ];
+  ]);
 
   /// Retrieves a single [Card] by [Suite] and value.
   Card getCard(Suite suite, int value) {
