@@ -15,11 +15,10 @@ A library to manage and play a game of Scopa.
 
 ## Features
 
-Complete:
-- TODO: Actually implement stuff
+Complete (until not):
+- Italian playing card deck
 
 Incomplete:
-- Italian playing card deck
 - Game setup
 - Player and table deck dealing
 - Simulate turns
