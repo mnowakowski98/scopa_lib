@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('Teams', () {
-    test('should contain a group of unique player', () {
+    test('should contain a group of unique players', () {
       final team = Team();
       team.players.addAll([
         Player('test'),

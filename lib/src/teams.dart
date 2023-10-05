@@ -1,4 +1,4 @@
-/// Types for tracking [Team]s and the [Player]s in them
+/// Types for tracking [Team]s and the [Player]s in them.
 library;
 
 /// A single player.
@@ -13,7 +13,7 @@ interface class Player {
   int get hashCode => name.hashCode;
 }
 
-/// A collection of [Player]s and a shared [score]
+/// A collection of [Player]s and a shared [score].
 class Team {
   int _score = 0;
 
