@@ -15,7 +15,7 @@ void main() {
 
     test('has 4 suites', () {
       var deck = Deck();
-      var knownSuites = <Suites>[];
+      var knownSuites = <Suite>[];
       var suites = deck.cards.fold(0, (count, card) {
         if (knownSuites.contains(card.suite)) {
           return count;
