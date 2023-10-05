@@ -27,5 +27,14 @@ void main() {
 
       expect(suites, equals(4));
     });
+
+    test('has only unique cards', () {
+      var deck = Deck();
+      var seenCards = <String>{};
+      for (final card in deck.cards) {
+        final isUnique = seenCards.add('${card.suite}-${card.value}');
+        expect(isUnique, isTrue);
+      }
+    });
   });
 }
