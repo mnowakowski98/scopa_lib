@@ -3,6 +3,11 @@ import 'package:test/test.dart';
 
 void main() {
   group('Deck content', () {
+    test('has 40 cards total', () {
+      final deck = Deck();
+      expect(deck.cards.length, equals(40));
+    });
+
     test('has 10 cards per suite', () {
       final deck = Deck();
       for (final suite in Suite.values) {
