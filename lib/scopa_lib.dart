@@ -2,3 +2,4 @@
 library;
 
 export 'src/deck.dart';
+export 'src/teams.dart';
