@@ -7,7 +7,7 @@ interface class Seat {
 }
 
 class Table {
-  final List<Card> pool = [];
+  final List<Card> pool = Deck().cards.toList(growable: false);
 
   late final List<Seat> seats;
   Table(int numSeats) {
