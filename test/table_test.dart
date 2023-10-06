@@ -10,12 +10,17 @@ void main() {
       expect(table1.seats.length, equals(3));
       expect(table2.seats.length, equals(10));
     });
-  });
 
-  test('initially has a pool hand with all cards', () {
-    final table = Table(2);
-    final deck = Deck();
-    expect(table.pool.isEmpty, isFalse);
-    expect(deck.cards.every((card) => table.pool.contains(card)), isTrue);
+    test('initially has a pool hand with all cards', () {
+      final table = Table(2);
+      final deck = Deck();
+      expect(table.pool.isEmpty, isFalse);
+      expect(deck.cards.every((card) => table.pool.contains(card)), isTrue);
+    });
+
+    test('initially has a round hand that is empty', () {
+      final table = Table(2);
+      expect(table.round.isEmpty, isTrue);
+    });
   });
 }

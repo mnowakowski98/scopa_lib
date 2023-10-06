@@ -8,6 +8,7 @@ interface class Seat {
 
 class Table {
   final List<Card> pool = Deck().cards.toList(growable: false);
+  final List<Card> round = List.empty();
 
   late final List<Seat> seats;
   Table(int numSeats) {
