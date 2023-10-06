@@ -15,6 +15,7 @@ void main() {
   test('initially has a pool hand with all cards', () {
     final table = Table(2);
     final deck = Deck();
-    expect(table.pool.every((card) => deck.cards.contains(card)), isTrue);
+    expect(table.pool.isEmpty, isFalse);
+    expect(deck.cards.every((card) => table.pool.contains(card)), isTrue);
   });
 }
