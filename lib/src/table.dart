@@ -7,6 +7,8 @@ interface class Seat {
 }
 
 class Table {
+  final List<Card> pool = [];
+
   late final List<Seat> seats;
   Table(int numSeats) {
     seats = List.unmodifiable(List.filled(numSeats, Seat()));

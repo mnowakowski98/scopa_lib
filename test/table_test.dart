@@ -11,4 +11,10 @@ void main() {
       expect(table2.seats.length, equals(10));
     });
   });
+
+  test('initially has a pool hand with all cards', () {
+    final table = Table(2);
+    final deck = Deck();
+    expect(table.pool.every((card) => deck.cards.contains(card)), isTrue);
+  });
 }
