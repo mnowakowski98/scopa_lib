@@ -32,7 +32,7 @@ void main() {
       expect(team3.incrementScore(7), isTrue);
     });
 
-    test('can check if their players are in other teams', () {
+    test('can check if there are player conflicts between teams', () {
       final team1 = Team();
       final team2 = Team();
 
