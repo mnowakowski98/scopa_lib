@@ -26,6 +26,12 @@ enum Suite {
 }
 
 /// A collection of [Card]s.
+/// Represents a flexible set of some unique playing cards.
+class Hand {
+  final cards = <Card>[];
+}
+
+/// A collection of [Card]s.
 /// Represents one complete set of unique playing cards.
 final class Deck {
   /// The full set of cards.
