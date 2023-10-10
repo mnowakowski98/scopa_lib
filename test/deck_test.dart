@@ -90,4 +90,78 @@ void main() {
       expect(ones.every((card) => card.value == 1), isTrue);
     });
   });
+
+  group('Hand management', () {
+    test('can add cards to hands', () {
+      final manager = HandManager(Deck());
+      final hand = Hand.manager(manager);
+
+      final card = Card(Suite.bastoni, 7);
+      manager.deal(Card(Suite.bastoni, 7), hand);
+
+      expect(hand.cards.length, equals(1));
+      expect(hand.cards.contains(card), isTrue);
+    });
+
+    test('can remove cards from hands', () {
+      final manager = HandManager(Deck());
+      final hand = Hand.manager(manager);
+      manager.deal(Card(Suite.bastoni, 7), hand);
+
+      final deleteCard = Card(Suite.denari, 4);
+      manager.deal(deleteCard, hand);
+      manager.remove(deleteCard, hand);
+
+      expect(hand.cards.length, equals(1));
+      expect(hand.cards.contains(deleteCard), isFalse);
+    });
+
+    test('can move cards between hands', () {
+      final manager = HandManager(Deck());
+      final card = Card(Suite.bastoni, 7);
+      final hand1 = Hand.manager(manager);
+      manager.deal(card, hand1);
+
+      final hand2 = Hand.manager(manager);
+      manager.move(card, hand1, hand2);
+      expect(hand1.cards.length, isZero);
+      expect(hand2.cards.length, equals(1));
+      expect(hand2.cards.contains(card), isTrue);
+    });
+
+    test('will move the card if dealt while already in a hand', () {
+      final manager = HandManager(Deck());
+      final card = Card(Suite.bastoni, 7);
+      final hand1 = Hand.manager(manager);
+      manager.deal(card, hand1);
+
+      final hand2 = Hand();
+      manager.manage(hand2);
+
+      manager.deal(card, hand2);
+      expect(hand1.cards.length, isZero);
+      expect(hand2.cards.length, equals(1));
+      expect(hand2.cards.contains(card), isTrue);
+    });
+
+    test('should throw when operating on unmanaged hands', () {
+      final manager = HandManager(Deck());
+
+      const card = Card(Suite.coppe, 4);
+      expect(() => manager.deal(card, Hand()), throwsArgumentError);
+      expect(() => manager.remove(card, Hand()), throwsArgumentError);
+      expect(() => manager.move(card, Hand(), Hand()), throwsArgumentError);
+    });
+
+    test('should throw if using a card not in the deck', () {
+      final manager = HandManager(Deck());
+
+      const card = Card(Suite.denari, 35);
+      final hand = Hand.manager(manager);
+      final hand2 = Hand.manager(manager);
+      expect(() => manager.deal(card, hand), throwsArgumentError);
+      expect(() => manager.remove(card, hand), throwsArgumentError);
+      expect(() => manager.move(card, hand, hand2), throwsArgumentError);
+    });
+  });
 }
