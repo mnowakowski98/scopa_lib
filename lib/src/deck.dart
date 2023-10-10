@@ -7,7 +7,7 @@ interface class Card {
   final Suite suite;
   final int value;
 
-  Card(this.suite, this.value);
+  const Card(this.suite, this.value);
 
   @override
   bool operator ==(Object other) =>
@@ -53,7 +53,13 @@ final class Deck {
 
 /// A list of [Card]s that represent a players hand.
 class Hand {
-  var cards = <Card>[];
+  final cards = <Card>[];
+
+  Hand();
+
+  Hand.manager(HandManager manager) {
+    manager.manage(this);
+  }
 }
 
 /// A set of [Hand]s that enforces rules between them.
