@@ -90,9 +90,4 @@ void main() {
       expect(ones.every((card) => card.value == 1), isTrue);
     });
   });
-
-  group('Hand', () {
-    test('has a maximum length of the given deck', () {});
-    test('can only contain cards of the given deck', () {});
-  });
 }
