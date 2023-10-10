@@ -7,11 +7,16 @@ interface class Seat {
 }
 
 class Table {
-  final List<Card> pool = Deck().cards.toList(growable: false);
-  final List<Card> round = List.empty();
+  final pool = Hand();
+  final round = Hand();
 
   late final List<Seat> seats;
-  Table(int numSeats) {
-    seats = List.unmodifiable(List.filled(numSeats, Seat()));
+  Table(int numSeats, HandManager manager) {
+    seats = List.unmodifiable(List.filled(numSeats, Seat(), growable: false));
+    manager.manage(pool);
+    manager.manage(round);
+    for (final card in manager.deck.cards) {
+      manager.deal(card, pool);
+    }
   }
 }
