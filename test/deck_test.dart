@@ -90,4 +90,10 @@ void main() {
       expect(ones.every((card) => card.value == 1), isTrue);
     });
   });
+
+  group('Hand management', () {
+    test('only allows one hand to use a given card', () {});
+    test('can add cards to hands', () {});
+    test('can remove cards from hands', () {});
+  });
 }
