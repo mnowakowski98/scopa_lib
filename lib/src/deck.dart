@@ -43,3 +43,21 @@ final class Deck {
     return cards.where((card) => card.value == value).toSet();
   }
 }
+
+/// A list of [Card]s that represent a players hand.
+class Hand {
+  var cards = <Card>[];
+}
+
+/// A set of [Hand]s that enforces rules between them.
+class HandManager {
+  final _deck;
+  final _hands = <Hand>{};
+
+  HandManager(this._deck);
+
+  void manageHand(Hand hand) {}
+  void dealCard(Card card, Hand toHand) {}
+  void moveCard(Card card, Hand toHand) {}
+  void voidCard(Card card, Hand fromHand) {}
+}
