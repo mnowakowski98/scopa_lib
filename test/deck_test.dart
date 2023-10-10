@@ -92,9 +92,62 @@ void main() {
   });
 
   group('Hand management', () {
-    test('only allows one hand to use a given card', () {});
-    test('can add cards to hands', () {});
-    test('can remove cards from hands', () {});
-    test('can move cards between hands', () {});
+    test('can add cards to hands', () {
+      final manager = HandManager(Deck());
+      final hand = Hand();
+      manager.manageHand(hand);
+
+      final card = Card(Suite.bastoni, 7);
+      manager.dealCard(Card(Suite.bastoni, 7), hand);
+
+      expect(hand.cards.length, equals(1));
+      expect(hand.cards.contains(card), isTrue);
+    });
+
+    test('can remove cards from hands', () {
+      final manager = HandManager(Deck());
+      final hand = Hand();
+      manager.manageHand(hand);
+      manager.dealCard(Card(Suite.bastoni, 7), hand);
+
+      final deleteCard = Card(Suite.denari, 4);
+      manager.dealCard(deleteCard, hand);
+      manager.voidCard(deleteCard, hand);
+
+      expect(hand.cards.length, equals(1));
+      expect(hand.cards.contains(deleteCard), isFalse);
+    });
+
+    test('can move cards between hands', () {
+      final manager = HandManager(Deck());
+      final card = Card(Suite.bastoni, 7);
+      final hand1 = Hand();
+      manager.manageHand(hand1);
+      manager.dealCard(card, hand1);
+
+      final hand2 = Hand();
+      manager.manageHand(hand2);
+
+      manager.moveCard(card, hand2);
+      expect(hand1.cards.length, isZero);
+      expect(hand2.cards.length, equals(1));
+      expect(hand2.cards.contains(card), isTrue);
+    });
+
+    test('will move the card if dealt while already in a hand', () {
+      final manager = HandManager(Deck());
+      final card = Card(Suite.bastoni, 7);
+      final hand1 = Hand();
+      manager.manageHand(hand1);
+      manager.dealCard(card, hand1);
+
+      final hand2 = Hand();
+      manager.manageHand(hand2);
+
+      manager.dealCard(card, hand2);
+      expect(hand1.cards.length, isZero);
+      expect(hand2.cards.length, equals(1));
+      expect(hand2.cards.contains(card), isTrue);
+    });
   });
 }
