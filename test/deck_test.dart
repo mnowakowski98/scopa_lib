@@ -95,10 +95,10 @@ void main() {
     test('can add cards to hands', () {
       final manager = HandManager(Deck());
       final hand = Hand();
-      manager.manageHand(hand);
+      manager.manage(hand);
 
       final card = Card(Suite.bastoni, 7);
-      manager.dealCard(Card(Suite.bastoni, 7), hand);
+      manager.deal(Card(Suite.bastoni, 7), hand);
 
       expect(hand.cards.length, equals(1));
       expect(hand.cards.contains(card), isTrue);
@@ -107,12 +107,12 @@ void main() {
     test('can remove cards from hands', () {
       final manager = HandManager(Deck());
       final hand = Hand();
-      manager.manageHand(hand);
-      manager.dealCard(Card(Suite.bastoni, 7), hand);
+      manager.manage(hand);
+      manager.deal(Card(Suite.bastoni, 7), hand);
 
       final deleteCard = Card(Suite.denari, 4);
-      manager.dealCard(deleteCard, hand);
-      manager.voidCard(deleteCard, hand);
+      manager.deal(deleteCard, hand);
+      manager.remove(deleteCard, hand);
 
       expect(hand.cards.length, equals(1));
       expect(hand.cards.contains(deleteCard), isFalse);
@@ -122,13 +122,13 @@ void main() {
       final manager = HandManager(Deck());
       final card = Card(Suite.bastoni, 7);
       final hand1 = Hand();
-      manager.manageHand(hand1);
-      manager.dealCard(card, hand1);
+      manager.manage(hand1);
+      manager.deal(card, hand1);
 
       final hand2 = Hand();
-      manager.manageHand(hand2);
+      manager.manage(hand2);
 
-      manager.moveCard(card, hand2);
+      manager.move(card, hand1, hand2);
       expect(hand1.cards.length, isZero);
       expect(hand2.cards.length, equals(1));
       expect(hand2.cards.contains(card), isTrue);
@@ -138,13 +138,13 @@ void main() {
       final manager = HandManager(Deck());
       final card = Card(Suite.bastoni, 7);
       final hand1 = Hand();
-      manager.manageHand(hand1);
-      manager.dealCard(card, hand1);
+      manager.manage(hand1);
+      manager.deal(card, hand1);
 
       final hand2 = Hand();
-      manager.manageHand(hand2);
+      manager.manage(hand2);
 
-      manager.dealCard(card, hand2);
+      manager.deal(card, hand2);
       expect(hand1.cards.length, isZero);
       expect(hand2.cards.length, equals(1));
       expect(hand2.cards.contains(card), isTrue);

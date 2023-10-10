@@ -56,8 +56,34 @@ class HandManager {
 
   HandManager(this._deck);
 
-  void manageHand(Hand hand) {}
-  void dealCard(Card card, Hand toHand) {}
-  void moveCard(Card card, Hand toHand) {}
-  void voidCard(Card card, Hand fromHand) {}
+  void _checkManaged(List<Hand> hands) {
+    if (_hands.containsAll(hands) == false) throw ArgumentError();
+  }
+
+  /// Adds the [hand] to the set of managed [Hand]s
+  void manage(Hand hand) {
+    _hands.add(hand);
+  }
+
+  void deal(Card card, Hand toHand) {
+    _checkManaged([toHand]);
+    for (final hand in _hands) {
+      if (hand.cards.contains(card)) {
+        move(card, hand, toHand);
+        return;
+      }
+    }
+
+    toHand.cards.add(card);
+  }
+
+  void remove(Card card, Hand fromHand) {
+    _checkManaged([fromHand]);
+    fromHand.cards.remove(card);
+  }
+
+  void move(Card card, Hand fromHand, Hand toHand) {
+    remove(card, fromHand);
+    deal(card, toHand);
+  }
 }
