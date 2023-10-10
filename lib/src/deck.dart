@@ -8,6 +8,13 @@ interface class Card {
   final int value;
 
   Card(this.suite, this.value);
+
+  @override
+  bool operator ==(Object other) =>
+      other is Card && other.suite == suite && other.value == value;
+
+  @override
+  int get hashCode => '$suite-$value'.hashCode;
 }
 
 // Available suites in the deck
