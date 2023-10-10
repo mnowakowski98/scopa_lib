@@ -95,5 +95,6 @@ void main() {
     test('only allows one hand to use a given card', () {});
     test('can add cards to hands', () {});
     test('can remove cards from hands', () {});
+    test('can move cards between hands', () {});
   });
 }
