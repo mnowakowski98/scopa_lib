@@ -65,10 +65,11 @@ class Hand {
 
 /// A set of [Hand]s that enforces rules between them.
 class HandManager {
-  final Deck _deck;
+  final Deck deck;
+
   final _hands = <Hand>{};
 
-  HandManager(this._deck);
+  HandManager(this.deck);
 
   /// Check if the given [hands] are managed.
   void _checkManaged(List<Hand> hands) {
@@ -82,7 +83,7 @@ class HandManager {
 
   /// Deals a [Card] to a [Hand].
   void deal(Card card, Hand toHand) {
-    if (_deck.cards.contains(card) == false) throw ArgumentError();
+    if (deck.cards.contains(card) == false) throw ArgumentError();
     _checkManaged([toHand]);
     for (final hand in _hands) {
       if (hand.cards.contains(card)) {
@@ -96,7 +97,7 @@ class HandManager {
 
   /// Removes a [Card] from a [Hand].
   void remove(Card card, Hand fromHand) {
-    if (_deck.cards.contains(card) == false) throw ArgumentError();
+    if (deck.cards.contains(card) == false) throw ArgumentError();
     _checkManaged([fromHand]);
     fromHand.cards.remove(card);
   }

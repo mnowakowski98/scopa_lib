@@ -3,3 +3,4 @@ library;
 
 export 'src/deck.dart';
 export 'src/teams.dart';
+export 'src/table.dart';
