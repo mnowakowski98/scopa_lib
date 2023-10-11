@@ -17,11 +17,16 @@ interface class Player {
 class Team {
   int _score = 0;
 
+  Team();
+  Team.players(List<Player> players) {
+    this.players.addAll(players);
+  }
+
   /// The current score for the [Team].
   int get score => _score;
 
   /// A set of unique [Player]s.
-  var players = <Player>{};
+  final players = <Player>{};
 
   /// Add to the [Team]s current [score].
   bool incrementScore(int by) {
