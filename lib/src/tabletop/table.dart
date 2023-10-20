@@ -9,17 +9,9 @@ interface class Seat {
 
 /// A collection of [Seat]s and 2 [Hand]s
 class Table {
-  final pool = Hand();
-  final round = Hand();
-
   late final List<Seat> seats;
 
-  Table(int numSeats, HandManager manager) {
-    // seats = List.unmodifiable(List.filled(numSeats, Seat(), growable: false));
-    // manager.manage(pool);
-    // manager.manage(round);
-    // for (final card in manager.deck._cards) {
-    //   manager.deal(card, pool);
-    // }
+  Table(int numSeats) {
+    seats = List.unmodifiable(List.filled(numSeats, Seat()));
   }
 }
