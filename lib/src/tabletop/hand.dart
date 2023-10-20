@@ -1,55 +1,7 @@
-/// Types supporting representation of the Italian card deck.
+/// Types to create/manage card [Hand]s
 library;
 
-/// Represents a single playing card.
-/// Has a suite and value.
-interface class Card {
-  final Suite suite;
-  final int value;
-
-  const Card(this.suite, this.value);
-
-  @override
-  bool operator ==(Object other) =>
-      other is Card && other.suite == suite && other.value == value;
-
-  @override
-  int get hashCode => '$suite-$value'.hashCode;
-}
-
-/// Available suites in the deck
-enum Suite {
-  denari,
-  coppe,
-  bastoni,
-  spade,
-}
-
-/// A collection of [Card]s.
-/// Represents one complete set of unique playing cards.
-final class Deck {
-  /// The full set of cards.
-  final Set<Card> cards = Set.unmodifiable([
-    for (final suite in Suite.values)
-      for (var i = 1; i <= 10; i++) Card(suite, i)
-  ]);
-
-  /// Retrieves a single [Card] by [Suite] and value.
-  Card getCard(Suite suite, int value) {
-    final suiteCards = cards.where((card) => card.suite == suite);
-    return suiteCards.singleWhere((card) => card.value == value);
-  }
-
-  /// Retrieves a set of [Card]s by [Suite].
-  Set<Card> getSuiteCards(Suite suite) {
-    return cards.where((card) => card.suite == suite).toSet();
-  }
-
-  /// Retrieves a set of [Card]s by value.
-  Set<Card> getValueCards(int value) {
-    return cards.where((card) => card.value == value).toSet();
-  }
-}
+import 'package:scopa_lib/tabletop_lib.dart';
 
 /// A list of [Card]s that represent a players hand.
 class Hand {
