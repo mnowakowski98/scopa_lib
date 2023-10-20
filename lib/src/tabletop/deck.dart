@@ -11,9 +11,13 @@ class Deck {
 
   Deck(this._cards);
 
+  /// Gets an unmodifiable set of all cards.
   Set<Card> get cards => Set.unmodifiable(_cards);
 
+  /// Gets a set of all suites in the deck.
   Set<String> get suites => {for (final card in _cards) card.suite};
+
+  /// Gets a set of all values in the deck.
   Set<int> get values => {for (final card in _cards) card.value};
 
   /// Retrieves a single [Card] by [Suite] and [value].
