@@ -13,6 +13,9 @@ class Deck {
 
   Set<Card> get cards => Set.unmodifiable(_cards);
 
+  Set<String> get suites => {for (final card in _cards) card.suite};
+  Set<int> get values => {for (final card in _cards) card.value};
+
   /// Retrieves a single [Card] by [Suite] and [value].
   Card getCard(String suite, int value) {
     final suiteCards = _cards.where((card) => card.suite == suite);

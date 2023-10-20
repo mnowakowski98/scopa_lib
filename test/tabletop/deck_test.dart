@@ -2,13 +2,40 @@ import 'package:scopa_lib/tabletop_lib.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('has only unique cards', () {
-    final deck = Deck({
-      Card('derp', 1),
-      Card('derp', 1),
+  group('Deck', () {
+    test('has only unique cards', () {
+      final deck = Deck({
+        Card('derp', 1),
+        Card('derp', 1),
+      });
+
+      expect(deck.getSuiteCards('derp').length, equals(1));
     });
 
-    expect(deck.getSuiteCards('derp').length, equals(1));
+    test('can get the set of all suites', () {
+      final deck = Deck({
+        Card('shrimp', 3),
+        Card('lobster', 2),
+      });
+
+      expect(deck.suites.length, equals(2));
+      expect(deck.suites, contains('shrimp'));
+      expect(deck.suites, contains('lobster'));
+    });
+
+    test('can get the set of all values', () {
+      final deck = Deck({
+        Card('chicken', 1),
+        Card('turkey', 5),
+        Card('steak', 10),
+        Card('pork', 1),
+      });
+
+      expect(deck.values.length, equals(3));
+      expect(deck.values, contains(1));
+      expect(deck.values, contains(5));
+      expect(deck.values, contains(10));
+    });
   });
 
   group('Card selection', () {
