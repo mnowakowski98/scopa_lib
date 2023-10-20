@@ -1,4 +1,4 @@
-import 'package:scopa_lib/scopa_lib.dart';
+import 'package:scopa_lib/tabletop_lib.dart';
 
 /// A seat that optionally has a [player]
 interface class Seat {
