@@ -1,4 +1,4 @@
-import 'package:scopa_lib/scopa_lib.dart';
+import 'package:scopa_lib/tabletop_lib.dart';
 import 'package:test/test.dart';
 
 void main() {
