@@ -5,12 +5,12 @@ import 'package:test/test.dart';
 void main() {
   group('Deck content', () {
     test('has 40 cards total', () {
-      final deck = ScopaDeck();
+      final deck = ScopaDeck.instance;
       expect(deck.cards.length, equals(40));
     });
 
     test('has 10 cards per suite', () {
-      final deck = ScopaDeck();
+      final deck = ScopaDeck.instance;
       for (final suite in scopaSuites) {
         final suiteCards = deck.getSuiteCards(suite);
         expect(suiteCards.length, equals(10));
@@ -18,7 +18,7 @@ void main() {
     });
 
     test('has 4 suites', () {
-      final deck = ScopaDeck();
+      final deck = ScopaDeck.instance;
 
       final knownSuites = <String>[];
       final suites = deck.cards.fold(0, (count, card) {
