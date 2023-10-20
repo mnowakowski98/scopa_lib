@@ -15,11 +15,11 @@ class Table {
   late final List<Seat> seats;
 
   Table(int numSeats, HandManager manager) {
-    seats = List.unmodifiable(List.filled(numSeats, Seat(), growable: false));
-    manager.manage(pool);
-    manager.manage(round);
-    for (final card in manager.deck.cards) {
-      manager.deal(card, pool);
-    }
+    // seats = List.unmodifiable(List.filled(numSeats, Seat(), growable: false));
+    // manager.manage(pool);
+    // manager.manage(round);
+    // for (final card in manager.deck._cards) {
+    //   manager.deal(card, pool);
+    // }
   }
 }

@@ -5,24 +5,26 @@ import 'package:scopa_lib/tabletop_lib.dart';
 
 /// A collection of [Card]s.
 /// Represents one complete set of unique playing cards.
-abstract class Deck {
+class Deck {
   /// The full set of cards.
-  abstract final Set<Card> cards;
+  final Set<Card> _cards;
+
+  Deck(this._cards);
 
   /// Retrieves a single [Card] by [Suite] and [value].
   Card getCard(String suite, int value) {
-    final suiteCards = cards.where((card) => card.suite == suite);
+    final suiteCards = _cards.where((card) => card.suite == suite);
     return suiteCards.singleWhere((card) => card.value == value);
   }
 
   /// Retrieves a set of [Card]s by [suite].
   Set<Card> getSuiteCards(String suite) {
-    return cards.where((card) => card.suite == suite).toSet();
+    return _cards.where((card) => card.suite == suite).toSet();
   }
 
   /// Retrieves a set of [Card]s by [value].
   Set<Card> getValueCards(int value) {
-    return cards.where((card) => card.value == value).toSet();
+    return _cards.where((card) => card.value == value).toSet();
   }
 }
 
@@ -58,7 +60,7 @@ class HandManager {
 
   /// Deals a [Card] to a [Hand].
   void deal(Card card, Hand toHand) {
-    if (deck.cards.contains(card) == false) throw ArgumentError();
+    if (deck._cards.contains(card) == false) throw ArgumentError();
     _checkManaged([toHand]);
     for (final hand in _hands) {
       if (hand.cards.contains(card)) {
@@ -72,7 +74,7 @@ class HandManager {
 
   /// Removes a [Card] from a [Hand].
   void remove(Card card, Hand fromHand) {
-    if (deck.cards.contains(card) == false) throw ArgumentError();
+    if (deck._cards.contains(card) == false) throw ArgumentError();
     _checkManaged([fromHand]);
     fromHand.cards.remove(card);
   }
