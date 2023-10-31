@@ -21,7 +21,7 @@ class Round {
       game.manager.deal(deck.getCard(suite(), value()), game.table.round);
     }
 
-    for (final hand in game.playerHands) {
+    for (final hand in game.playerHands.values) {
       for (var i = 0; i < 3; i++) {
         game.manager.deal(deck.getCard(suite(), value()), hand);
       }
@@ -34,7 +34,7 @@ class Game {
   final manager = HandManager(ScopaDeck.instance);
   final Set<Team> _teams;
   late final ScopaTable table;
-  final playerHands = <Hand>[];
+  final playerHands = <Seat, Hand>{};
 
   Game(this._teams) {
     final numPlayers = _teams.fold(
@@ -46,7 +46,7 @@ class Game {
     var playerIndex = 0;
     for (final seat in table.seats) {
       seat.player = _teams.elementAt(teamIndex).players.elementAt(playerIndex);
-      playerHands.add(Hand.manager(manager));
+      playerHands[seat] = Hand.manager(manager);
 
       if (++teamIndex == _teams.length) {
         teamIndex = 0;

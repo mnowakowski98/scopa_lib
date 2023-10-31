@@ -47,7 +47,7 @@ void main() {
         final round = Round(game);
         round.start();
 
-        for (final hand in game.playerHands) {
+        for (final hand in game.playerHands.values) {
           expect(hand.cards.length, equals(3));
         }
         expect(game.table.pool.cards.length, equals(25));
