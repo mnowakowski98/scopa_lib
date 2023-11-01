@@ -21,37 +21,35 @@ void main() {
         expect(seat.player, isNotNull);
       }
     });
+  });
 
-    group('Scopa round', () {
-      test('deals 3 cards to the round hand on start', () {
-        final game = Game({});
-        final round = Round(game);
-        round.start();
+  group('Scopa round', () {
+    test('deals 3 cards to the round hand on start', () {
+      final game = Game({});
+      game.startRound();
 
-        expect(game.table.round.cards.length, equals(3));
-        expect(game.table.pool.cards.length, equals(37));
+      expect(game.table.round.cards.length, equals(3));
+      expect(game.table.pool.cards.length, equals(37));
+    });
+
+    test('deals 3 cards to each player hand on start', () {
+      final game = Game({
+        Team.players([
+          Player('1-1'),
+          Player('1-2'),
+        ]),
+        Team.players([
+          Player('2-1'),
+          Player('2-2'),
+        ])
       });
 
-      test('deals 3 cards to each player hand on start', () {
-        final game = Game({
-          Team.players([
-            Player('1-1'),
-            Player('1-2'),
-          ]),
-          Team.players([
-            Player('2-1'),
-            Player('2-2'),
-          ])
-        });
+      game.startRound();
 
-        final round = Round(game);
-        round.start();
-
-        for (final hand in game.playerHands.values) {
-          expect(hand.cards.length, equals(3));
-        }
-        expect(game.table.pool.cards.length, equals(25));
-      });
+      for (final hand in game.playerHands.values) {
+        expect(hand.cards.length, equals(3));
+      }
+      expect(game.table.pool.cards.length, equals(25));
     });
   });
 }
