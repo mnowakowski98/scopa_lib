@@ -21,6 +21,10 @@ void main() {
         expect(seat.player, isNotNull);
       }
     });
+
+    test('can be constructed with an empty set of teams', () {
+      expect(Game({}), isNotNull);
+    });
   });
 
   group('Scopa round', () {
@@ -53,15 +57,20 @@ void main() {
     });
 
     test('sets the current player to the first seat', () {
-      final firstPlayer = Player('1-1');
       final game = Game({
-        Team.players([firstPlayer]),
+        Team.players([Player('1-1')]),
         Team.players([Player('2-1')]),
       });
 
       game.startRound();
 
-      expect(game.currentPlayer.name, equals(firstPlayer.name));
+      expect(game.currentPlayer, equals(game.table.seats[0].player));
+    });
+
+    test('does not set the current player if there are no players', () {
+      final game = Game({});
+      game.startRound();
+      expect(game.currentPlayer, isNull);
     });
   });
 }

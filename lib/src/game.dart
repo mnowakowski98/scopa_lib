@@ -10,9 +10,14 @@ class Game {
   final Set<Team> _teams;
   late final ScopaTable table;
   final playerHands = <Player, Hand>{};
-  late Player currentPlayer;
+  Player? currentPlayer;
 
   Game(this._teams) {
+    if (_teams.isEmpty) {
+      table = ScopaTable(0, manager);
+      return;
+    }
+
     final numPlayers = _teams.fold(
         0, (previousValue, element) => previousValue += element.players.length);
 
@@ -32,12 +37,14 @@ class Game {
   }
 
   void startRound() {
-    currentPlayer = table.seats[0].player!;
     final poolCards = table.pool.cards;
     for (var i = 0; i < 3; i++) {
       manager.deal(poolCards[poolCards.length - 1], table.round);
     }
 
+    if (_teams.isEmpty) return;
+
+    currentPlayer = table.seats[0].player;
     for (final hand in playerHands.values) {
       for (var i = 0; i < 3; i++) {
         manager.deal(poolCards[poolCards.length - 1], hand);
