@@ -71,6 +71,10 @@ void main() {
       final game = Game({});
       game.startRound();
       expect(game.currentPlayer, isNull);
+
+      final game2 = Game({Team.players([])});
+      game2.startRound();
+      expect(game2.currentPlayer, isNull);
     });
   });
 }
