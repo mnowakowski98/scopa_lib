@@ -42,7 +42,7 @@ class Game {
       manager.deal(poolCards[poolCards.length - 1], table.round);
     }
 
-    if (_teams.isEmpty) return;
+    if (table.seats.isEmpty) return;
 
     currentPlayer = table.seats[0].player;
     for (final hand in playerHands.values) {
