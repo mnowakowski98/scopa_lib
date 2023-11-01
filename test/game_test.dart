@@ -51,5 +51,17 @@ void main() {
       }
       expect(game.table.pool.cards.length, equals(25));
     });
+
+    test('sets the current player to the first seat', () {
+      final firstPlayer = Player('1-1');
+      final game = Game({
+        Team.players([firstPlayer]),
+        Team.players([Player('2-1')]),
+      });
+
+      game.startRound();
+
+      expect(game.currentPlayer.name, equals(firstPlayer.name));
+    });
   });
 }

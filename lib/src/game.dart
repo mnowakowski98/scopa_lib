@@ -10,6 +10,7 @@ class Game {
   final Set<Team> _teams;
   late final ScopaTable table;
   final playerHands = <Player, Hand>{};
+  late Player currentPlayer;
 
   Game(this._teams) {
     final numPlayers = _teams.fold(
@@ -31,6 +32,7 @@ class Game {
   }
 
   void startRound() {
+    currentPlayer = table.seats[0].player!;
     final poolCards = table.pool.cards;
     for (var i = 0; i < 3; i++) {
       manager.deal(poolCards[poolCards.length - 1], table.round);
