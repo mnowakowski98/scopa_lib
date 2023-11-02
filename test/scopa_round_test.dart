@@ -32,16 +32,30 @@ void main() {
     group('on play', () {
       test('plays the card to the round hand if no matchers', () {
         final manager = HandManager(ScopaDeck.instance);
-        final roundHand = Hand(manager);
-        final round = ScopaRound([Player('1')], manager,
-            Hand(manager, ScopaDeck.instance.cards.toList()), roundHand);
+        final roundHand = Hand(manager, [Card('Coppe', 7)]);
+        final player = Player('1');
+        final round = ScopaRound([player], manager, Hand(manager), roundHand);
+        final cardToPlay = Card('Coppe', 4);
+        manager.deal(cardToPlay, round.playerHands[player]!);
 
-        round.setup();
-        round.start();
-
-        final cardToPlay = round.playerHands[round.currentPlayer]!.cards[0];
         round.play(cardToPlay);
+
         expect(roundHand.cards, contains(cardToPlay));
+      });
+
+      test('captures the card from the round hand if one matcher', () {
+        final manager = HandManager(ScopaDeck.instance);
+        final matchCard = Card('Coppe', 7);
+        final playCard = Card('Denari', 7);
+        final roundHand = Hand(manager, [matchCard]);
+        final player = Player('test');
+        final round = ScopaRound([player], manager, Hand(manager), roundHand);
+        manager.deal(playCard, round.playerHands[player]!);
+
+        round.play(playCard, [matchCard]);
+
+        expect(round.captureHands[player]!.cards, contains(playCard));
+        expect(round.captureHands[player]!.cards, contains(matchCard));
       });
     });
   });
