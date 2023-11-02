@@ -32,7 +32,10 @@ class ScopaRound {
   }
 
   bool play(Card playCard, [List<Card>? matchCards]) {
-    throw UnimplementedError();
+    if (matchCards == null) {
+      _manager.deal(playCard, _round);
+    }
+
     return false;
   }
 }
