@@ -2,6 +2,12 @@ import 'package:scopa_lib/scopa_lib.dart';
 import 'package:scopa_lib/tabletop_lib.dart';
 import 'package:test/test.dart';
 
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+
+@GenerateNiceMocks([MockSpec<ScopaRound>()])
+import 'game_test.mocks.dart';
+
 void main() {
   group('Scopa game', () {
     test('can be constructed with a set of teams', () {
@@ -25,56 +31,59 @@ void main() {
     test('can be constructed with an empty set of teams', () {
       expect(Game({}), isNotNull);
     });
-  });
 
-  group('Scopa round', () {
-    test('deals 3 cards to the round hand on start', () {
-      final game = Game({});
-      game.startRound();
-
-      expect(game.table.round.cards.length, equals(3));
-      expect(game.table.pool.cards.length, equals(37));
-    });
-
-    test('deals 3 cards to each player hand on start', () {
-      final game = Game({
-        Team.players([
-          Player('1-1'),
-          Player('1-2'),
-        ]),
-        Team.players([
-          Player('2-1'),
-          Player('2-2'),
-        ])
+    group('on round setup', () {
+      test('moves all cards to the pool hand', () {
+        final game = Game({});
+        game.setupRound();
+        expect(game.table.pool.cards, hasLength(40));
       });
 
-      game.startRound();
-
-      for (final hand in game.playerHands.values) {
-        expect(hand.cards.length, equals(3));
-      }
-      expect(game.table.pool.cards.length, equals(25));
+      test('shuffles the pool hand', () {
+        final game = Game({});
+        game.setupRound();
+        // TODO: Validate the pool hand is shuffled
+      });
     });
 
-    test('sets the current player to the first seat', () {
-      final game = Game({
-        Team.players([Player('1-1')]),
-        Team.players([Player('2-1')]),
+    group('on round start', () {
+      test('deals 4 cards from the pool to the round hand', () {
+        final game = Game({});
+        game.setupRound();
+        game.startRound();
+
+        expect(game.table.round.cards, hasLength(4));
+        expect(game.table.pool.cards, hasLength(36));
       });
 
-      game.startRound();
+      test('starts the round if one is passed', () {
+        final game = Game({});
+        final round = MockScopaRound();
 
-      expect(game.currentPlayer, equals(game.table.seats[0].player));
-    });
+        game.startRound(round);
 
-    test('does not set the current player if there are no players', () {
-      final game = Game({});
-      game.startRound();
-      expect(game.currentPlayer, isNull);
-
-      final game2 = Game({Team.players([])});
-      game2.startRound();
-      expect(game2.currentPlayer, isNull);
+        verify(round.start());
+      });
     });
   });
+
+  // group('Scopa turn', () {
+  //   test('can play a card to the round hand', () {
+  //     final game = Game({
+  //       Team.players([Player('test')])
+  //     });
+  //     game.startRound();
+  //     game.playerTurn(game.playerHands[game.currentPlayer]!.cards[2]);
+  //     expect(game.table.round.cards, hasLength(4));
+  //   });
+  //   test('can capture a matching card in the round hand', () {
+  //     final game = Game({
+  //       Team.players([Player('test')])
+  //     });
+  //     game.startRound();
+  //     game.playerTurn(game.playerHands[game.currentPlayer]!.cards[2]);
+  //   });
+  //   test('can capture the sum components of a matching card in the round hand',
+  //       () {});
+  // });
 }

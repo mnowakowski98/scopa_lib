@@ -10,7 +10,6 @@ class Game {
   final Set<Team> _teams;
   late final ScopaTable table;
   final playerHands = <Player, Hand>{};
-  Player? currentPlayer;
 
   Game(this._teams) {
     if (_teams.isEmpty) {
@@ -36,19 +35,22 @@ class Game {
     }
   }
 
-  void startRound() {
+  void setupRound() {
+    for (final card in manager.deck.cards) {
+      manager.deal(card, table.pool);
+    }
+  }
+
+  void startRound([ScopaRound? round]) {
     final poolCards = table.pool.cards;
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 4; i++) {
       manager.deal(poolCards[poolCards.length - 1], table.round);
     }
 
-    if (table.seats.isEmpty) return;
+    if (round != null) round.start();
+  }
 
-    currentPlayer = table.seats[0].player;
-    for (final hand in playerHands.values) {
-      for (var i = 0; i < 3; i++) {
-        manager.deal(poolCards[poolCards.length - 1], hand);
-      }
-    }
+  void playerTurn(Card matcher, {List<Card>? roundCards}) {
+    throw UnimplementedError();
   }
 }
