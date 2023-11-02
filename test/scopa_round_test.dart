@@ -20,6 +20,15 @@ void main() {
       }
     });
 
+    test('sets the current player to the first one on start', () {
+      final firstPlayer = Player('1');
+      final round = ScopaRound([firstPlayer, Player('2')],
+          HandManager(ScopaDeck.instance), Hand(), Hand());
+
+      round.start();
+      expect(round.currentPlayer, equals(firstPlayer));
+    });
+
     // test('sets the current player to the first seat', () {
     //   final game = Game({
     //     Team.players([Player('1-1')]),

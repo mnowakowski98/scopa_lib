@@ -9,6 +9,9 @@ class ScopaRound {
   final playerHands = <Player, Hand>{};
   final captureHands = <Player, Hand>{};
 
+  var _currentPlayerIndex = 0;
+  Player get currentPlayer => _players[_currentPlayerIndex];
+
   ScopaRound(this._players, this._manager, this._pool, this._round) {
     for (final player in _players) {
       playerHands[player] = Hand(_manager);
@@ -24,5 +27,7 @@ class ScopaRound {
     }
   }
 
-  void start({Function? onEnd}) {}
+  void start() {
+    _currentPlayerIndex = 0;
+  }
 }

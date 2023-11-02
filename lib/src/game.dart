@@ -41,13 +41,13 @@ class Game {
     }
   }
 
-  void startRound([ScopaRound? round, Function? onEnd]) {
+  void startRound([ScopaRound? round]) {
     final poolCards = table.pool.cards;
     for (var i = 0; i < 4; i++) {
       manager.deal(poolCards[poolCards.length - 1], table.round);
     }
 
-    if (round != null) round.start(onEnd: onEnd);
+    if (round != null) round.start();
   }
 
   void playerTurn(Card matcher, {List<Card>? roundCards}) {
