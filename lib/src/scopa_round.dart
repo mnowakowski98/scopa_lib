@@ -30,4 +30,9 @@ class ScopaRound {
   void start() {
     _currentPlayerIndex = 0;
   }
+
+  bool play(Card playCard, [List<Card>? matchCards]) {
+    throw UnimplementedError();
+    return false;
+  }
 }

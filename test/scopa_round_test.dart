@@ -29,25 +29,20 @@ void main() {
       expect(round.currentPlayer, equals(firstPlayer));
     });
 
-    // test('sets the current player to the first seat', () {
-    //   final game = Game({
-    //     Team.players([Player('1-1')]),
-    //     Team.players([Player('2-1')]),
-    //   });
+    group('on play', () {
+      test('plays the card to the round hand if no matchers', () {
+        final manager = HandManager(ScopaDeck.instance);
+        final roundHand = Hand(manager);
+        final round = ScopaRound([Player('1')], manager,
+            Hand(manager, ScopaDeck.instance.cards.toList()), roundHand);
 
-    //   game.startRound();
+        round.setup();
+        round.start();
 
-    //   expect(game.currentPlayer, equals(game.table.seats[0].player));
-    // });
-
-    // test('does not set the current player if there are no players', () {
-    //   final game = Game({});
-    //   game.startRound();
-    //   expect(game.currentPlayer, isNull);
-
-    //   final game2 = Game({Team.players([])});
-    //   game2.startRound();
-    //   expect(game2.currentPlayer, isNull);
-    // });
+        final cardToPlay = round.playerHands[round.currentPlayer]!.cards[0];
+        round.play(cardToPlay);
+        expect(roundHand.cards, contains(cardToPlay));
+      });
+    });
   });
 }
