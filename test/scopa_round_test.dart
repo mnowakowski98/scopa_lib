@@ -4,11 +4,16 @@ import 'package:test/test.dart';
 
 void main() {
   group('Scopa round', () {
-    test('deals 3 cards to each player hand on start', () {
+    test('deals 3 cards to each player hand on setup', () {
+      final manager = HandManager(ScopaDeck.instance);
       final round = ScopaRound(
-          [Player('1'), Player('2')], HandManager(ScopaDeck.instance));
+        [Player('1'), Player('2')],
+        manager,
+        Hand(manager, ScopaDeck.instance.cards.toList()),
+        Hand(manager),
+      );
 
-      round.start();
+      round.setup();
 
       for (final hand in round.playerHands.values) {
         expect(hand.cards.length, equals(3));

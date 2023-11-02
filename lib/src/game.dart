@@ -26,7 +26,7 @@ class Game {
     var playerIndex = 0;
     for (final seat in table.seats) {
       seat.player = _teams.elementAt(teamIndex).players.elementAt(playerIndex);
-      playerHands[seat.player!] = Hand.manager(manager);
+      playerHands[seat.player!] = Hand(manager);
 
       if (++teamIndex == _teams.length) {
         teamIndex = 0;

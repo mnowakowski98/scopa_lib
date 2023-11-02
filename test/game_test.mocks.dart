@@ -23,22 +23,6 @@ import 'package:scopa_lib/tabletop_lib.dart' as _i3;
 /// See the documentation for Mockito's code generation for more information.
 class MockScopaRound extends _i1.Mock implements _i2.ScopaRound {
   @override
-  List<_i3.Player> get players => (super.noSuchMethod(
-        Invocation.getter(#players),
-        returnValue: <_i3.Player>[],
-        returnValueForMissingStub: <_i3.Player>[],
-      ) as List<_i3.Player>);
-
-  @override
-  set players(List<_i3.Player>? _players) => super.noSuchMethod(
-        Invocation.setter(
-          #players,
-          _players,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
   Map<_i3.Player, _i3.Hand> get playerHands => (super.noSuchMethod(
         Invocation.getter(#playerHands),
         returnValue: <_i3.Player, _i3.Hand>{},
@@ -53,10 +37,20 @@ class MockScopaRound extends _i1.Mock implements _i2.ScopaRound {
       ) as Map<_i3.Player, _i3.Hand>);
 
   @override
-  void start() => super.noSuchMethod(
+  void setup() => super.noSuchMethod(
+        Invocation.method(
+          #setup,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void start({Function? onEnd}) => super.noSuchMethod(
         Invocation.method(
           #start,
           [],
+          {#onEnd: onEnd},
         ),
         returnValueForMissingStub: null,
       );
