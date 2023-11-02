@@ -32,8 +32,14 @@ class ScopaRound {
   }
 
   bool play(Card playCard, [List<Card>? matchCards]) {
-    if (matchCards == null) {
+    if (matchCards == null || matchCards.isEmpty) {
       _manager.deal(playCard, _round);
+      return false;
+    }
+
+    if (matchCards.length == 1) {
+      _manager.deal(playCard, captureHands[currentPlayer]!);
+      _manager.deal(matchCards[0], captureHands[currentPlayer]!);
     }
 
     return false;
