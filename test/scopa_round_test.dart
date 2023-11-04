@@ -75,6 +75,20 @@ void main() {
         }
         expect(round.captureHands[player]!.cards, contains(playCard));
       });
+
+      test(
+          'throws an argument error if match cards are not summed to the play card',
+          () {
+        final manager = HandManager(ScopaDeck.instance);
+        final matchCards = [Card('Coppe', 2), Card('Denari', 1)];
+        final playCard = Card('Bastoni', 6);
+        final roundHand = Hand(manager, matchCards);
+        final round =
+            ScopaRound([Player('test')], manager, Hand(manager), roundHand);
+
+        expect(() => round.play(playCard, matchCards), throwsArgumentError);
+        expect(round.captureHands.values.first.cards, isEmpty);
+      });
     });
   });
 }
