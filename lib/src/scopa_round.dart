@@ -33,6 +33,7 @@ class ScopaRound {
 
   bool play(Card playCard, [List<Card>? matchCards]) {
     // TODO: Validate play card is in current player hand
+    // TODO: Validate all match cards are in the round hand
 
     if (matchCards == null || matchCards.isEmpty) {
       _manager.deal(playCard, _round);
@@ -40,14 +41,15 @@ class ScopaRound {
     }
 
     if (matchCards.length == 1) {
-      // TODO: Validate match card is in round hand
       _manager.deal(playCard, captureHands[currentPlayer]!);
       _manager.deal(matchCards[0], captureHands[currentPlayer]!);
     }
 
     if (matchCards.length > 1) {
-      // TODO: Validate match cards are in round hand
-      // TODO: Validate match card values sum up to play card value
+      final matchSum = matchCards.fold(
+          0, (previousValue, element) => previousValue + element.value);
+      if (matchSum != playCard.value) throw ArgumentError();
+
       _manager.deal(playCard, captureHands[currentPlayer]!);
       for (final card in matchCards) {
         _manager.deal(card, captureHands[currentPlayer]!);
