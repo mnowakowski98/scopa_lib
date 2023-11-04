@@ -57,6 +57,24 @@ void main() {
         expect(round.captureHands[player]!.cards, contains(playCard));
         expect(round.captureHands[player]!.cards, contains(matchCard));
       });
+
+      test(
+          'captures cards from the round hand if matchers sum up to the play card',
+          () {
+        final manager = HandManager(ScopaDeck.instance);
+        final matchCards = [Card('Coppe', 2), Card('Denari', 4)];
+        final playCard = Card('Bastoni', 6);
+        final roundHand = Hand(manager, matchCards);
+        final player = Player('test');
+        final round = ScopaRound([player], manager, Hand(manager), roundHand);
+
+        round.play(playCard, matchCards);
+
+        for (final card in matchCards) {
+          expect(round.captureHands[player]!.cards, contains(card));
+        }
+        expect(round.captureHands[player]!.cards, contains(playCard));
+      });
     });
   });
 }

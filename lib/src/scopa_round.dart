@@ -32,14 +32,26 @@ class ScopaRound {
   }
 
   bool play(Card playCard, [List<Card>? matchCards]) {
+    // TODO: Validate play card is in current player hand
+
     if (matchCards == null || matchCards.isEmpty) {
       _manager.deal(playCard, _round);
       return false;
     }
 
     if (matchCards.length == 1) {
+      // TODO: Validate match card is in round hand
       _manager.deal(playCard, captureHands[currentPlayer]!);
       _manager.deal(matchCards[0], captureHands[currentPlayer]!);
+    }
+
+    if (matchCards.length > 1) {
+      // TODO: Validate match cards are in round hand
+      // TODO: Validate match card values sum up to play card value
+      _manager.deal(playCard, captureHands[currentPlayer]!);
+      for (final card in matchCards) {
+        _manager.deal(card, captureHands[currentPlayer]!);
+      }
     }
 
     return false;
