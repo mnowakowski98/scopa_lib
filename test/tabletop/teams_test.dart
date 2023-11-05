@@ -15,6 +15,15 @@ void main() {
       expect(team.players.length, equals(3));
     });
 
+    test('should be constructable with a list of players', () {
+      final team = Team.players([
+        Player('test'),
+        Player('test2'),
+      ]);
+
+      expect(team.players.length, equals(2));
+    });
+
     test('should be able to increment score', () {
       final team = Team();
       team.incrementScore(4);

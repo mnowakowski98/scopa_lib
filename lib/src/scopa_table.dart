@@ -7,8 +7,5 @@ class ScopaTable extends Table {
   ScopaTable(super.numSeats, HandManager manager) {
     manager.manage(pool);
     manager.manage(round);
-    for (final card in manager.deck.cards) {
-      manager.deal(card, pool);
-    }
   }
 }

@@ -14,7 +14,7 @@ void main() {
   group('Hand management', () {
     test('can add cards to hands', () {
       final manager = HandManager(testDeck);
-      final hand = Hand.manager(manager);
+      final hand = Hand(manager);
 
       final card = testDeck.getCard('test', 1);
       manager.deal(card, hand);
@@ -23,9 +23,30 @@ void main() {
       expect(hand.cards.contains(card), isTrue);
     });
 
+    test('can add a list of cards to hands', () {
+      final manager = HandManager(testDeck);
+      final hand = Hand(manager);
+
+      final cards = testDeck.getValueCards(1);
+      manager.dealAll(cards.toList(), hand);
+
+      expect(hand.cards, hasLength(2));
+      expect(hand.cards, containsAll(cards));
+    });
+
+    test('can add all cards in a deck to a hand', () {
+      final manager = HandManager(testDeck);
+      final hand = Hand(manager);
+
+      manager.dealDeck(hand);
+
+      expect(hand.cards, hasLength(testDeck.cards.length));
+      expect(hand.cards, containsAll(testDeck.cards));
+    });
+
     test('can remove cards from hands', () {
       final manager = HandManager(testDeck);
-      final hand = Hand.manager(manager);
+      final hand = Hand(manager);
       manager.deal(Card('bastoni', 7), hand);
 
       final deleteCard = Card('denari', 4);
@@ -39,10 +60,10 @@ void main() {
     test('can move cards between hands', () {
       final manager = HandManager(testDeck);
       final card = Card('bastoni', 7);
-      final hand1 = Hand.manager(manager);
+      final hand1 = Hand(manager);
       manager.deal(card, hand1);
 
-      final hand2 = Hand.manager(manager);
+      final hand2 = Hand(manager);
       manager.move(card, hand1, hand2);
       expect(hand1.cards.length, isZero);
       expect(hand2.cards.length, equals(1));
@@ -52,7 +73,7 @@ void main() {
     test('will move the card if dealt while already in a hand', () {
       final manager = HandManager(testDeck);
       final card = Card('bastoni', 7);
-      final hand1 = Hand.manager(manager);
+      final hand1 = Hand(manager);
       manager.deal(card, hand1);
 
       final hand2 = Hand();
@@ -77,8 +98,8 @@ void main() {
       final manager = HandManager(testDeck);
 
       const card = Card('gobbledy', 35);
-      final hand = Hand.manager(manager);
-      final hand2 = Hand.manager(manager);
+      final hand = Hand(manager);
+      final hand2 = Hand(manager);
       expect(() => manager.deal(card, hand), throwsArgumentError);
       expect(() => manager.remove(card, hand), throwsArgumentError);
       expect(() => manager.move(card, hand, hand2), throwsArgumentError);
