@@ -37,6 +37,7 @@ class ScopaRound {
 
     if (matchCards == null || matchCards.isEmpty) {
       _manager.deal(playCard, _table.round);
+      // TODO: Set next player
       return RoundState.next;
     }
 
@@ -56,9 +57,12 @@ class ScopaRound {
       }
     }
 
-    // TODO: Set next player
+    // TODO: Check if capture was a scopa
+
     // TODO: Check if round should reset
     // TODO: Check if round should end
+
+    // TODO: Set next player
 
     return RoundState.next;
   }
