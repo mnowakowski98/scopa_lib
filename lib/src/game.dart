@@ -12,6 +12,7 @@ class Game {
   final playerHands = <Player, Hand>{};
 
   late ScopaRound _round;
+  var _isRoundSetup = false;
 
   /// The current [ScopaRound].
   ScopaRound get round => _round;
@@ -50,14 +51,22 @@ class Game {
 
     _round = ScopaRound(manager, table);
     _round.setup();
+
+    _isRoundSetup = true;
   }
 
   /// Starts the current [round].
   /// Deals 4 cards to the [ScopaRound]'s round hand.
   /// Starts the round logic.
   void startRound() {
+    if (_isRoundSetup == false) {
+      throw StateError("Round is not setup to be started");
+    }
+
     final poolCards = table.pool.cards;
     manager.dealAll(poolCards.sublist(poolCards.length - 4), table.round);
     _round.start();
+
+    _isRoundSetup = false;
   }
 }
