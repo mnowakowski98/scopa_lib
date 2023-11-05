@@ -3,17 +3,16 @@ import 'package:scopa_lib/tabletop_lib.dart';
 
 class ScopaRound {
   final HandManager _manager;
-  late final ScopaTable? _table;
+  final ScopaTable _table;
 
   final playerHands = <Player, Hand>{};
   final captureHands = <Player, Hand>{};
 
   var _currentPlayerIndex = 0;
-  Player? get currentPlayer => _table?.seats[_currentPlayerIndex].player;
+  Player? get currentPlayer => _table.seats[_currentPlayerIndex].player;
 
-  ScopaRound(this._manager, [this._table]) {
-    _table ??= ScopaTable(0, _manager);
-    for (final seat in _table!.seats) {
+  ScopaRound(this._manager, this._table) {
+    for (final seat in _table.seats) {
       playerHands[seat.player!] = Hand(_manager);
       captureHands[seat.player!] = Hand(_manager);
     }
@@ -22,7 +21,7 @@ class ScopaRound {
   void setup() {
     for (final hand in playerHands.values) {
       for (var i = 0; i < 3; i++) {
-        _manager.deal(_table!.pool.cards[_table!.pool.cards.length - 1], hand);
+        _manager.deal(_table.pool.cards[_table.pool.cards.length - 1], hand);
       }
     }
   }
@@ -36,7 +35,7 @@ class ScopaRound {
     // TODO: Validate all match cards are in the round hand
 
     if (matchCards == null || matchCards.isEmpty) {
-      _manager.deal(playCard, _table!.round);
+      _manager.deal(playCard, _table.round);
       return false;
     }
 

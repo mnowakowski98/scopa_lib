@@ -53,6 +53,14 @@ class HandManager {
     toHand.cards.add(card);
   }
 
+  void dealAll(List<Card> cards, Hand toHand) {
+    throw UnimplementedError();
+  }
+
+  void dealDeck(Hand toHand) {
+    throw UnimplementedError();
+  }
+
   /// Removes a [Card] from a [Hand].
   void remove(Card card, Hand fromHand) {
     if (deck.cards.contains(card) == false) throw ArgumentError();

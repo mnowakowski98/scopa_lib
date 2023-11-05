@@ -23,6 +23,27 @@ void main() {
       expect(hand.cards.contains(card), isTrue);
     });
 
+    test('can add a list of cards to hands', () {
+      final manager = HandManager(testDeck);
+      final hand = Hand(manager);
+
+      final cards = testDeck.getValueCards(1);
+      manager.dealAll(cards.toList(), hand);
+
+      expect(hand.cards, hasLength(2));
+      expect(hand.cards, containsAll(cards));
+    });
+
+    test('can add all cards in a deck to a hand', () {
+      final manager = HandManager(testDeck);
+      final hand = Hand(manager);
+
+      manager.dealDeck(hand);
+
+      expect(hand.cards, hasLength(testDeck.cards.length));
+      expect(hand.cards, containsAll(testDeck.cards));
+    });
+
     test('can remove cards from hands', () {
       final manager = HandManager(testDeck);
       final hand = Hand(manager);
