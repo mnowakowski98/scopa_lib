@@ -17,13 +17,13 @@ void main() {
       }
     });
 
-    test('sets the current player to the first one on start', () {
+    test('sets the current player to the first one on setup', () {
       final firstPlayer = Player('1');
       final table = ScopaTable(1, HandManager(ScopaDeck.instance));
       table.seats[0].player = firstPlayer;
       final round = ScopaRound(HandManager(ScopaDeck.instance), table);
 
-      round.start();
+      round.setup();
       expect(round.currentPlayer, equals(firstPlayer));
     });
 

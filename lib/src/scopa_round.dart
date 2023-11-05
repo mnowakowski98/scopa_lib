@@ -1,6 +1,8 @@
 import 'package:scopa_lib/scopa_lib.dart';
 import 'package:scopa_lib/tabletop_lib.dart';
 
+enum RoundState { next, reset, ending }
+
 class ScopaRound {
   final HandManager _manager;
   final ScopaTable _table;
@@ -18,25 +20,24 @@ class ScopaRound {
     }
   }
 
+  /// Setup the [ScopaRound] by dealing 3 cards to each player.
+  /// Resets the current player.
   void setup() {
     for (final hand in playerHands.values) {
       for (var i = 0; i < 3; i++) {
         _manager.deal(_table.pool.cards[_table.pool.cards.length - 1], hand);
       }
     }
-  }
-
-  void start() {
     _currentPlayerIndex = 0;
   }
 
-  bool play(Card playCard, [List<Card>? matchCards]) {
+  RoundState play(Card playCard, [List<Card>? matchCards]) {
     // TODO: Validate play card is in current player hand
     // TODO: Validate all match cards are in the round hand
 
     if (matchCards == null || matchCards.isEmpty) {
       _manager.deal(playCard, _table.round);
-      return false;
+      return RoundState.next;
     }
 
     if (matchCards.length == 1) {
@@ -59,6 +60,6 @@ class ScopaRound {
     // TODO: Check if round should reset
     // TODO: Check if round should end
 
-    return false;
+    return RoundState.next;
   }
 }

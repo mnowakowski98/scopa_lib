@@ -57,7 +57,6 @@ class Game {
 
   /// Starts the current [round].
   /// Deals 4 cards to the [ScopaRound]'s round hand.
-  /// Starts the round logic.
   void startRound() {
     if (_isRoundSetup == false) {
       throw StateError("Round is not setup to be started");
@@ -65,7 +64,6 @@ class Game {
 
     final poolCards = table.pool.cards;
     manager.dealAll(poolCards.sublist(poolCards.length - 4), table.round);
-    _round.start();
 
     _isRoundSetup = false;
   }
