@@ -2,12 +2,6 @@ import 'package:scopa_lib/scopa_lib.dart';
 import 'package:scopa_lib/tabletop_lib.dart';
 import 'package:test/test.dart';
 
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-
-@GenerateNiceMocks([MockSpec<ScopaRound>()])
-import 'game_test.mocks.dart';
-
 void main() {
   group('Scopa game', () {
     test('can be constructed with a set of teams', () {
@@ -37,6 +31,7 @@ void main() {
         final game = Game({});
         game.setupRound();
         expect(game.table.pool.cards, hasLength(40));
+        expect(game.table.pool.cards, containsAll(ScopaDeck.instance.cards));
       });
 
       test('shuffles the pool hand', () {
@@ -54,15 +49,6 @@ void main() {
 
         expect(game.table.round.cards, hasLength(4));
         expect(game.table.pool.cards, hasLength(36));
-      });
-
-      test('starts the round if one is passed', () {
-        final game = Game({});
-        final round = MockScopaRound();
-
-        game.startRound(round);
-
-        verify(round.start());
       });
     });
   });

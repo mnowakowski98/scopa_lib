@@ -11,7 +11,10 @@ class Game {
   late final ScopaTable table;
   final playerHands = <Player, Hand>{};
 
-  ScopaRound? currentRound;
+  late ScopaRound _round;
+
+  /// The current [ScopaRound].
+  ScopaRound get round => _round;
 
   Game(this._teams) {
     if (_teams.isEmpty) {
@@ -37,25 +40,24 @@ class Game {
     }
   }
 
+  /// Sets up a new [ScopaRound].
+  /// Moves and shuffles the whole [ScopaDeck] to the [table.pool].
+  /// Runs [ScopaRound] setup.
   void setupRound() {
-    for (final card in manager.deck.cards) {
-      manager.deal(card, table.pool);
-    }
+    manager.dealDeck(table.pool);
 
-    currentRound = ScopaRound(manager, table);
-    currentRound!.setup();
+    // TODO: Shuffle the pool hand
+
+    _round = ScopaRound(manager, table);
+    _round.setup();
   }
 
-  void startRound([ScopaRound? round]) {
+  /// Starts the current [round].
+  /// Deals 4 cards to the [ScopaRound]'s round hand.
+  /// Starts the round logic.
+  void startRound() {
     final poolCards = table.pool.cards;
-    for (var i = 0; i < 4; i++) {
-      manager.deal(poolCards[poolCards.length - 1], table.round);
-    }
-
-    if (round != null) round.start();
-  }
-
-  void playerTurn(Card matcher, {List<Card>? roundCards}) {
-    throw UnimplementedError();
+    manager.dealAll(poolCards.sublist(poolCards.length - 4), table.round);
+    _round.start();
   }
 }

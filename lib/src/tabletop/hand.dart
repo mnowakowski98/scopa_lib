@@ -53,12 +53,14 @@ class HandManager {
     toHand.cards.add(card);
   }
 
+  /// Deals all [Card]s to a [Hand].
   void dealAll(List<Card> cards, Hand toHand) {
     for (final card in cards) {
       deal(card, toHand);
     }
   }
 
+  /// Deals the entire [Deck] to a [Hand].
   void dealDeck(Hand toHand) {
     for (final card in deck.cards) {
       deal(card, toHand);
