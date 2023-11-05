@@ -54,11 +54,15 @@ class HandManager {
   }
 
   void dealAll(List<Card> cards, Hand toHand) {
-    throw UnimplementedError();
+    for (final card in cards) {
+      deal(card, toHand);
+    }
   }
 
   void dealDeck(Hand toHand) {
-    throw UnimplementedError();
+    for (final card in deck.cards) {
+      deal(card, toHand);
+    }
   }
 
   /// Removes a [Card] from a [Hand].
