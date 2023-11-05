@@ -5,13 +5,7 @@ import 'package:test/test.dart';
 void main() {
   group('Scopa round', () {
     test('deals 3 cards to each player hand on setup', () {
-      final manager = HandManager(ScopaDeck.instance);
-      final round = ScopaRound(
-        [Player('1'), Player('2')],
-        manager,
-        Hand(manager, ScopaDeck.instance.cards.toList()),
-        Hand(manager),
-      );
+      final round = ScopaRound(HandManager(ScopaDeck.instance));
 
       round.setup();
 
@@ -22,8 +16,7 @@ void main() {
 
     test('sets the current player to the first one on start', () {
       final firstPlayer = Player('1');
-      final round = ScopaRound([firstPlayer, Player('2')],
-          HandManager(ScopaDeck.instance), Hand(), Hand());
+      final round = ScopaRound(HandManager(ScopaDeck.instance));
 
       round.start();
       expect(round.currentPlayer, equals(firstPlayer));
@@ -34,7 +27,7 @@ void main() {
         final manager = HandManager(ScopaDeck.instance);
         final roundHand = Hand(manager, [Card('Coppe', 7)]);
         final player = Player('1');
-        final round = ScopaRound([player], manager, Hand(manager), roundHand);
+        final round = ScopaRound(manager);
         final cardToPlay = Card('Coppe', 4);
         manager.deal(cardToPlay, round.playerHands[player]!);
 
@@ -49,7 +42,7 @@ void main() {
         final playCard = Card('Denari', 7);
         final roundHand = Hand(manager, [matchCard]);
         final player = Player('test');
-        final round = ScopaRound([player], manager, Hand(manager), roundHand);
+        final round = ScopaRound(manager);
         manager.deal(playCard, round.playerHands[player]!);
 
         round.play(playCard, [matchCard]);
@@ -66,7 +59,7 @@ void main() {
         final playCard = Card('Bastoni', 6);
         final roundHand = Hand(manager, matchCards);
         final player = Player('test');
-        final round = ScopaRound([player], manager, Hand(manager), roundHand);
+        final round = ScopaRound(manager);
 
         round.play(playCard, matchCards);
 
@@ -83,8 +76,7 @@ void main() {
         final matchCards = [Card('Coppe', 2), Card('Denari', 1)];
         final playCard = Card('Bastoni', 6);
         final roundHand = Hand(manager, matchCards);
-        final round =
-            ScopaRound([Player('test')], manager, Hand(manager), roundHand);
+        final round = ScopaRound(manager);
 
         expect(() => round.play(playCard, matchCards), throwsArgumentError);
         expect(round.captureHands.values.first.cards, isEmpty);

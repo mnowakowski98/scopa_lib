@@ -66,24 +66,4 @@ void main() {
       });
     });
   });
-
-  // group('Scopa turn', () {
-  //   test('can play a card to the round hand', () {
-  //     final game = Game({
-  //       Team.players([Player('test')])
-  //     });
-  //     game.startRound();
-  //     game.playerTurn(game.playerHands[game.currentPlayer]!.cards[2]);
-  //     expect(game.table.round.cards, hasLength(4));
-  //   });
-  //   test('can capture a matching card in the round hand', () {
-  //     final game = Game({
-  //       Team.players([Player('test')])
-  //     });
-  //     game.startRound();
-  //     game.playerTurn(game.playerHands[game.currentPlayer]!.cards[2]);
-  //   });
-  //   test('can capture the sum components of a matching card in the round hand',
-  //       () {});
-  // });
 }

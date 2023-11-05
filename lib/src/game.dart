@@ -11,6 +11,8 @@ class Game {
   late final ScopaTable table;
   final playerHands = <Player, Hand>{};
 
+  ScopaRound? currentRound;
+
   Game(this._teams) {
     if (_teams.isEmpty) {
       table = ScopaTable(0, manager);
@@ -39,6 +41,9 @@ class Game {
     for (final card in manager.deck.cards) {
       manager.deal(card, table.pool);
     }
+
+    currentRound = ScopaRound(manager, table);
+    currentRound!.setup();
   }
 
   void startRound([ScopaRound? round]) {
