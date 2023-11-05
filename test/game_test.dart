@@ -39,6 +39,16 @@ void main() {
         game.setupRound();
         // TODO: Validate the pool hand is shuffled
       });
+
+      test('creates a new current round', () {
+        final game = Game({});
+        game.setupRound();
+        final oldRound = game.round;
+
+        game.setupRound();
+
+        expect(game.round, isNot(oldRound));
+      });
     });
 
     group('on round start', () {
@@ -49,6 +59,14 @@ void main() {
 
         expect(game.table.round.cards, hasLength(4));
         expect(game.table.pool.cards, hasLength(36));
+      });
+
+      test('throws a state error called again before a new round is setup', () {
+        final game = Game({});
+        game.setupRound();
+        game.startRound();
+
+        expect(() => game.startRound(), throwsStateError);
       });
     });
   });
