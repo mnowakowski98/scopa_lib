@@ -20,15 +20,26 @@ class ScopaRound {
     }
   }
 
+  /// Moves and shuffles the whole [ScopaDeck] to the table pool.
+  void resetPool() {
+    _manager.dealDeck(_table.pool);
+    // TODO: Shuffle the pool hand
+  }
+
   /// Setup the [ScopaRound] by dealing 3 cards to each player.
-  /// Resets the current player.
-  void setup() {
+  void dealPlayers() {
     for (final hand in playerHands.values) {
       for (var i = 0; i < 3; i++) {
         _manager.deal(_table.pool.cards[_table.pool.cards.length - 1], hand);
       }
     }
     _currentPlayerIndex = 0;
+  }
+
+  /// Deal 4 cards to the round hand
+  void dealRound() {
+    final poolCards = _table.pool.cards;
+    _manager.dealAll(poolCards.sublist(poolCards.length - 4), _table.round);
   }
 
   RoundState play(Card playCard, [List<Card>? matchCards]) {
@@ -59,7 +70,7 @@ class ScopaRound {
 
     // TODO: Check if capture was a scopa
 
-    // TODO: Check if round should reset
+    // TODO: Check if players need to be dealt
     // TODO: Check if round should end
 
     // TODO: Set next player

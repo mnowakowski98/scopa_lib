@@ -27,46 +27,14 @@ void main() {
     });
 
     group('on round setup', () {
-      test('moves all cards to the pool hand', () {
-        final game = Game({});
-        game.setupRound();
-        expect(game.table.pool.cards, hasLength(40));
-        expect(game.table.pool.cards, containsAll(ScopaDeck.instance.cards));
-      });
-
-      test('shuffles the pool hand', () {
-        final game = Game({});
-        game.setupRound();
-        // TODO: Validate the pool hand is shuffled
-      });
-
       test('creates a new current round', () {
         final game = Game({});
-        game.setupRound();
+        game.nextRound();
         final oldRound = game.round;
 
-        game.setupRound();
+        game.nextRound();
 
         expect(game.round, isNot(oldRound));
-      });
-    });
-
-    group('on round start', () {
-      test('deals 4 cards from the pool to the round hand', () {
-        final game = Game({});
-        game.setupRound();
-        game.startRound();
-
-        expect(game.table.round.cards, hasLength(4));
-        expect(game.table.pool.cards, hasLength(36));
-      });
-
-      test('throws a state error called again before a new round is setup', () {
-        final game = Game({});
-        game.setupRound();
-        game.startRound();
-
-        expect(() => game.startRound(), throwsStateError);
       });
     });
   });

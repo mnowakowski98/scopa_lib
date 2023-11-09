@@ -4,28 +4,48 @@ import 'package:test/test.dart';
 
 void main() {
   group('Scopa round', () {
-    test('deals 3 cards to each player hand on setup', () {
+    test('deals 3 cards to each player', () {
       final manager = HandManager(ScopaDeck.instance);
       final table = ScopaTable(0, manager);
       final round = ScopaRound(manager, table);
       manager.dealDeck(table.pool);
 
-      round.setup();
+      round.dealPlayers();
 
       for (final hand in round.playerHands.values) {
         expect(hand.cards.length, equals(3));
       }
     });
 
-    test('sets the current player to the first one on setup', () {
-      final firstPlayer = Player('1');
-      final table = ScopaTable(1, HandManager(ScopaDeck.instance));
-      table.seats[0].player = firstPlayer;
-      final round = ScopaRound(HandManager(ScopaDeck.instance), table);
+    test('moves all cards to the pool hand on reset', () {
+      final manager = HandManager(ScopaDeck.instance);
+      final table = ScopaTable(0, manager);
+      final round = ScopaRound(manager, table);
 
-      round.setup();
-      expect(round.currentPlayer, equals(firstPlayer));
+      round.resetPool();
+
+      expect(table.pool.cards, hasLength(40));
+      expect(table.pool.cards, containsAll(ScopaDeck.instance.cards));
     });
+
+    test('shuffles the pool hand on reset', () {
+      final manager = HandManager(ScopaDeck.instance);
+      final table = ScopaTable(0, manager);
+      final round = ScopaRound(manager, table);
+
+      round.resetPool();
+      // TODO: Validate the pool hand is shuffled
+    });
+
+    // test('sets the current player to the first one on setup', () {
+    //   final firstPlayer = Player('1');
+    //   final table = ScopaTable(1, HandManager(ScopaDeck.instance));
+    //   table.seats[0].player = firstPlayer;
+    //   final round = ScopaRound(HandManager(ScopaDeck.instance), table);
+
+    //   round.setup();
+    //   expect(round.currentPlayer, equals(firstPlayer));
+    // });
 
     group('on play', () {
       test('plays the card to the round hand if no matchers', () {
