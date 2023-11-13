@@ -145,8 +145,9 @@ void main() {
           manager.deal(Card('Coppe', 2), table.pool);
           manager.deal(Card('Denari', 2), round.playerHands.values.first);
 
-          final roundState =
-              round.play(round.playerHands.values.first.cards.first);
+          final roundState = round.play(
+              round.playerHands.values.first.cards.first,
+              [table.pool.cards.first]);
 
           expect(roundState, equals(RoundState.ending));
         });
