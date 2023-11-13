@@ -97,6 +97,19 @@ void main() {
             contains(playCard));
       });
 
+      test('redeals the player hands when all are empty', () {
+        final round = getTestRound().$1;
+        final playerHand = round.playerHands.values.first;
+        round.resetPool();
+        round.dealPlayers();
+
+        for (var i = 0; i > 3; i++) {
+          round.play(playerHand.cards[playerHand.cards.length - 1]);
+        }
+
+        expect(playerHand.cards.length, equals(3));
+      });
+
       test(
           'throws an argument error if match cards are not summed to the play card',
           () {

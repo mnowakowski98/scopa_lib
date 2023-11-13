@@ -11,6 +11,8 @@ class ScopaRound {
   final captureHands = <Player, Hand>{};
 
   var _currentPlayerIndex = 0;
+
+  /// The [Player] that the next call to [play] will use.
   Player? get currentPlayer => _table.seats[_currentPlayerIndex].player;
 
   ScopaRound(this._manager, this._table) {
@@ -56,25 +58,23 @@ class ScopaRound {
     // Play a single card without capture
     if (matchCards == null || matchCards.isEmpty) {
       _manager.deal(playCard, _table.round);
-      _nextPlayer();
-      return RoundState.next;
-    }
+    } else {
+      // Capture a single matching card
+      if (matchCards.length == 1) {
+        _manager.deal(playCard, captureHands[currentPlayer]!);
+        _manager.deal(matchCards[0], captureHands[currentPlayer]!);
+      }
 
-    // Capture a single matching card
-    if (matchCards.length == 1) {
-      _manager.deal(playCard, captureHands[currentPlayer]!);
-      _manager.deal(matchCards[0], captureHands[currentPlayer]!);
-    }
+      // Capture multiple summating cards
+      if (matchCards.length > 1) {
+        final matchSum = matchCards.fold(
+            0, (previousValue, element) => previousValue + element.value);
+        if (matchSum != playCard.value) throw ArgumentError();
 
-    // Capture multiple summating cards
-    if (matchCards.length > 1) {
-      final matchSum = matchCards.fold(
-          0, (previousValue, element) => previousValue + element.value);
-      if (matchSum != playCard.value) throw ArgumentError();
-
-      _manager.deal(playCard, captureHands[currentPlayer]!);
-      for (final card in matchCards) {
-        _manager.deal(card, captureHands[currentPlayer]!);
+        _manager.deal(playCard, captureHands[currentPlayer]!);
+        for (final card in matchCards) {
+          _manager.deal(card, captureHands[currentPlayer]!);
+        }
       }
     }
 
@@ -85,7 +85,10 @@ class ScopaRound {
       return RoundState.scopa;
     }
 
-    // TODO: Check if players need to be dealt
+    // Redeal players if needed
+    if (playerHands.values.every((hand) => hand.cards.isEmpty)) {
+      dealPlayers();
+    }
 
     _nextPlayer();
     return RoundState.next;
