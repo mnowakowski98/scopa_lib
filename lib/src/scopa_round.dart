@@ -47,17 +47,20 @@ class ScopaRound {
     // TODO: Validate play card is in current player hand
     // TODO: Validate all match cards are in the round hand
 
+    // Play a single card without capture
     if (matchCards == null || matchCards.isEmpty) {
       _manager.deal(playCard, _table.round);
       // TODO: Set next player
       return RoundState.next;
     }
 
+    // Capture a single matching card
     if (matchCards.length == 1) {
       _manager.deal(playCard, captureHands[currentPlayer]!);
       _manager.deal(matchCards[0], captureHands[currentPlayer]!);
     }
 
+    // Capture multiple summating cards
     if (matchCards.length > 1) {
       final matchSum = matchCards.fold(
           0, (previousValue, element) => previousValue + element.value);
@@ -69,10 +72,14 @@ class ScopaRound {
       }
     }
 
-    // TODO: Check if capture was a scopa
+    // TODO: Check if round should end
+
+    // Check if capture was a scopa
+    if (_table.round.cards.isEmpty) {
+      return RoundState.scopa;
+    }
 
     // TODO: Check if players need to be dealt
-    // TODO: Check if round should end
 
     // TODO: Set next player
 
