@@ -103,9 +103,8 @@ void main() {
         round.resetPool();
         round.dealPlayers();
 
-        for (var i = playerHand.cards.length; i > 0;) {
-          round.play(playerHand.cards[0]);
-          i = playerHand.cards.length;
+        for (var i = 0; i > 3; i++) {
+          round.play(playerHand.cards[playerHand.cards.length - 1]);
         }
 
         expect(playerHand.cards.length, equals(3));
