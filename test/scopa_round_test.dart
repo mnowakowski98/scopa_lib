@@ -136,6 +136,21 @@ void main() {
 
           expect(roundState, equals(RoundState.scopa));
         });
+
+        test('an ending result when the pool hand is empty', () {
+          final roundInfo = getTestRound();
+          final round = roundInfo.$1;
+          final manager = roundInfo.$2;
+          final table = roundInfo.$3;
+          manager.deal(Card('Coppe', 2), table.pool);
+          manager.deal(Card('Denari', 2), round.playerHands.values.first);
+
+          final roundState = round.play(
+              round.playerHands.values.first.cards.first,
+              [table.pool.cards.first]);
+
+          expect(roundState, equals(RoundState.ending));
+        });
       });
     });
   });

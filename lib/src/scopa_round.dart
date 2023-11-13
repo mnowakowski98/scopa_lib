@@ -1,7 +1,7 @@
 import 'package:scopa_lib/scopa_lib.dart';
 import 'package:scopa_lib/tabletop_lib.dart';
 
-enum RoundState { next, reset, ending, scopa }
+enum RoundState { next, ending, scopa }
 
 class ScopaRound {
   final HandManager _manager;
@@ -78,16 +78,19 @@ class ScopaRound {
       }
     }
 
-    // TODO: Check if round should end
-
-    // Check if capture was a scopa
-    if (_table.round.cards.isEmpty) {
-      return RoundState.scopa;
+    // Check if round should end
+    if (_table.pool.cards.isEmpty) {
+      return RoundState.ending;
     }
 
     // Redeal players if needed
     if (playerHands.values.every((hand) => hand.cards.isEmpty)) {
       dealPlayers();
+    }
+
+    // Check if capture was a scopa
+    if (_table.round.cards.isEmpty) {
+      return RoundState.scopa;
     }
 
     _nextPlayer();
