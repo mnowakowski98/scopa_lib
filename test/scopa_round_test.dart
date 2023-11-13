@@ -127,6 +127,7 @@ void main() {
       group('returns', () {
         test('a scopa result if a scopa was scored', () {
           final round = getTestRound();
+          round.$1.resetPool();
           final playCard = Card('Bastoni', 6);
           final matchCards = [Card('Coppe', 2), Card('Denari', 4)];
           round.$2.dealAll(matchCards, round.$3.round);
