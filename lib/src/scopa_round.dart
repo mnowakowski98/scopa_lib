@@ -1,7 +1,7 @@
 import 'package:scopa_lib/scopa_lib.dart';
 import 'package:scopa_lib/tabletop_lib.dart';
 
-enum RoundState { next, reset, ending }
+enum RoundState { next, reset, ending, scopa }
 
 class ScopaRound {
   final HandManager _manager;

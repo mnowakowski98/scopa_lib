@@ -3,6 +3,13 @@ import 'package:scopa_lib/tabletop_lib.dart';
 import 'package:test/test.dart';
 
 void main() {
+  (ScopaRound, HandManager, ScopaTable) getTestRound() {
+    final manager = HandManager(ScopaDeck.instance);
+    final table = ScopaTable(1, manager);
+    table.seats[0].player = Player('test');
+    return (ScopaRound(manager, table), manager, table);
+  }
+
   group('Scopa round', () {
     test('deals 3 cards to each player', () {
       final manager = HandManager(ScopaDeck.instance);
@@ -102,6 +109,20 @@ void main() {
 
         expect(() => round.play(playCard, matchCards), throwsArgumentError);
         expect(round.captureHands.values.first.cards, isEmpty);
+      });
+
+      group('returns', () {
+        test('a scopa result if a scopa was scored', () {
+          final round = getTestRound();
+          final playCard = Card('Bastoni', 6);
+          final matchCards = [Card('Coppe', 2), Card('Denari', 4)];
+          round.$2.dealAll(matchCards, round.$3.round);
+          round.$2.deal(playCard, round.$1.playerHands[0]!);
+
+          final roundState = round.$1.play(playCard, matchCards);
+
+          expect(roundState, equals(RoundState.scopa));
+        });
       });
     });
   });
