@@ -42,6 +42,7 @@ class ScopaRound {
     _manager.dealAll(poolCards.sublist(poolCards.length - 4), _table.round);
   }
 
+  /// Play a turn for the current player
   RoundState play(Card playCard, [List<Card>? matchCards]) {
     // TODO: Validate play card is in current player hand
     // TODO: Validate all match cards are in the round hand
