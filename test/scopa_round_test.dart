@@ -138,6 +138,7 @@ void main() {
           expect(roundState, equals(RoundState.scopa));
         });
 
+        // TODO: Update test to end when all player hands are empty too
         test('an ending result when the pool hand is empty', () {
           final roundInfo = getTestRound();
           final round = roundInfo.$1;

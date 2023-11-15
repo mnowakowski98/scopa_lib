@@ -79,6 +79,7 @@ class ScopaRound {
     }
 
     // Check if round should end
+    // TODO: Update to check that player hands are empty too
     if (_table.pool.cards.isEmpty) {
       // TODO: Capture round cards to player that last captured
 
@@ -89,6 +90,7 @@ class ScopaRound {
         _manager.unmanage(hand);
       }
 
+      // TODO: Make everything as read only as possible
       return RoundState.ending;
     }
 
