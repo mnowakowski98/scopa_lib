@@ -3,10 +3,12 @@ import 'package:scopa_lib/tabletop_lib.dart';
 import 'package:test/test.dart';
 
 void main() {
-  (ScopaRound, HandManager, ScopaTable) getTestRound() {
+  (ScopaRound, HandManager, ScopaTable) getTestRound([int numPlayers = 1]) {
     final manager = HandManager(ScopaDeck.instance);
-    final table = ScopaTable(1, manager);
-    table.seats[0].player = Player('test');
+    final table = ScopaTable(numPlayers, manager);
+    for (var i = 0; i < numPlayers; i++) {
+      table.seats[i].player = Player('test$i');
+    }
     return (ScopaRound(manager, table), manager, table);
   }
 
@@ -117,6 +119,17 @@ void main() {
         }
 
         expect(playerHand.cards.length, equals(3));
+      });
+
+      test('sets the next player if not ending', () {
+        final round = getTestRound(2).$1;
+        round.resetPool();
+        round.dealPlayers();
+        final firstPlayer = round.currentPlayer;
+
+        round.play(round.playerHands[firstPlayer]!.cards.first);
+
+        expect(round.currentPlayer, isNot(firstPlayer));
       });
 
       test(
