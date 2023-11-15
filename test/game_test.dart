@@ -25,5 +25,16 @@ void main() {
     test('can be constructed with an empty set of teams', () {
       expect(Game({}), isNotNull);
     });
+
+    test('returns a setup round on next round', () {
+      final game = Game({});
+
+      final round = game.nextRound();
+      // TODO: Check with function flags if more needs to be asserted in this test
+      // Seems too eager to say the whole function is covered
+      // when it should probably assert more about the table/player hand states
+
+      expect(round, isNotNull);
+    });
   });
 }
