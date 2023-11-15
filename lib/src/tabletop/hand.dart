@@ -7,16 +7,9 @@ import 'package:scopa_lib/tabletop_lib.dart';
 class Hand {
   final cards = <Card>[];
 
-  Hand([HandManager? manager, List<Card>? cards]) {
-    if (cards != null && manager == null) throw ArgumentError();
-
+  Hand([HandManager? manager]) {
     if (manager != null) {
       manager.manage(this);
-      if (cards != null) {
-        for (final card in cards) {
-          manager.deal(card, this);
-        }
-      }
     }
   }
 }
