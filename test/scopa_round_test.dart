@@ -24,6 +24,15 @@ void main() {
       }
     });
 
+    test('deals 4 cards to the round hand', () {
+      final roundInfo = getTestRound();
+
+      roundInfo.$1.resetPool();
+      roundInfo.$1.dealRound();
+
+      expect(roundInfo.$3.round.cards, hasLength(4));
+    });
+
     test('moves all cards to the pool hand on reset', () {
       final manager = HandManager(ScopaDeck.instance);
       final table = ScopaTable(0, manager);
