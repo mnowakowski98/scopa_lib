@@ -12,6 +12,6 @@ class Table {
   late final List<Seat> seats;
 
   Table(int numSeats) {
-    seats = List.unmodifiable(List.filled(numSeats, Seat()));
+    seats = List.unmodifiable(List.generate(numSeats, (index) => Seat()));
   }
 }

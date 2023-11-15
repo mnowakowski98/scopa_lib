@@ -39,6 +39,10 @@ class HandManager {
     _hands.add(hand);
   }
 
+  void unmanage(Hand hand) {
+    _hands.remove(hand);
+  }
+
   /// Deals a [Card] to a [Hand].
   void deal(Card card, Hand toHand) {
     if (deck.cards.contains(card) == false) throw ArgumentError();

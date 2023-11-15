@@ -81,6 +81,14 @@ class ScopaRound {
     // Check if round should end
     if (_table.pool.cards.isEmpty) {
       // TODO: Capture round cards to player that last captured
+
+      for (final hand in playerHands.values) {
+        _manager.unmanage(hand);
+      }
+      for (final hand in captureHands.values) {
+        _manager.unmanage(hand);
+      }
+
       return RoundState.ending;
     }
 

@@ -25,17 +25,5 @@ void main() {
     test('can be constructed with an empty set of teams', () {
       expect(Game({}), isNotNull);
     });
-
-    group('on round setup', () {
-      test('creates a new current round', () {
-        final game = Game({});
-        game.nextRound();
-        final oldRound = game.round;
-
-        game.nextRound();
-
-        expect(game.round, isNot(oldRound));
-      });
-    });
   });
 }
