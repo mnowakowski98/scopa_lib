@@ -30,8 +30,8 @@ Designed to be frontend and project framework agnostic.
 ### Planned features
 - Keep track of game scoring and declare winner.
 - Modifiable game rules and deck.
-- Allow teams with differing number of players
-- Custom team sorting rules
+- Allow teams with differing number of players.
+- Custom team sorting rules.
 
 ## Getting started
 
