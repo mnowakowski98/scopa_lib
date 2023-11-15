@@ -10,11 +10,6 @@ class Game {
   final Set<Team> _teams;
   late final ScopaTable table;
 
-  late ScopaRound _round;
-
-  /// The current [ScopaRound].
-  ScopaRound get round => _round;
-
   Game(this._teams) {
     if (_teams.isEmpty) {
       table = ScopaTable(0, manager);
@@ -39,13 +34,11 @@ class Game {
   }
 
   /// Sets up a new [ScopaRound].
-
-  /// Runs [ScopaRound] setup.
   ScopaRound nextRound() {
-    _round = ScopaRound(manager, table);
-    _round.resetPool();
-    _round.dealPlayers();
-    _round.dealRound();
-    return _round;
+    final round = ScopaRound(manager, table);
+    round.resetPool();
+    round.dealPlayers();
+    round.dealRound();
+    return round;
   }
 }

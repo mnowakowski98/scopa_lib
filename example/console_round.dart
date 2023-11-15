@@ -12,6 +12,7 @@ void main() {
     Team.players([Player('2')]),
   };
 
+  // Setup the game
   final game = Game(teams);
   final round = game.nextRound();
 
