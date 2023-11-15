@@ -19,7 +19,14 @@ Designed to be frontend and project framework agnostic.
 
 ## Features
 
-TODO: Redo this section entirely
+- Representation of a 40 card playing deck.
+   - 4 Suites, Cards 1-10.
+- Keeps track of all cards in the deck and handles dealing.
+- Function driven turns that always operate on the correct player.
+- Exposes useful game information for building card game apps.
+
+### Planned features
+
 
 ## Getting started
 
@@ -32,5 +39,5 @@ TODO: Include short and useful examples for package users.
 
 ## Additional information
 
-This is just a thing I'm making for fun while looking for jobs.  
+This is just a thing I'm making for fun while looking for work.  
 (also to learn Dart and practice developing things via test too tho).
