@@ -11,43 +11,26 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-A library to manage and play a game of Scopa.
+> This is a pre-release of a personal project.  
+> Don't use it in anything serious.
+
+A library to manage and play a game of Scopa.  
+Designed to be frontend and project framework agnostic.
 
 ## Features
 
-Complete (until not):
-- Italian playing card deck
-
-Incomplete:
-- Game setup
-- Player and table deck dealing
-- Simulate turns
-- Scoring
-- Customization of game mechanics
-   - Point settings for primiera
-   - Direction of play
-   - Points needed to win
-
-TODO: Expand customization options
+TODO: Redo this section entirely
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Currently unpublished.
+To use download the source and build it.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+TODO: Include short and useful examples for package users.
 
-```dart
-const like = 'sample';
-```
-
-<!--
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
--->
+This is just a thing I'm making for fun while looking for jobs.  
+(also to learn Dart and practice developing things via test too tho).
