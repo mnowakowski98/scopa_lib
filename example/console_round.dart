@@ -7,10 +7,10 @@ import 'dart:io';
 import 'package:scopa_lib/tabletop_lib.dart';
 
 void main() {
-  final teams = {
+  final teams = [
     Team.players([Player('1')]),
     Team.players([Player('2')]),
-  };
+  ];
 
   // Setup the game
   final game = Game(teams);
