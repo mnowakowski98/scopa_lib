@@ -17,8 +17,9 @@ interface class Player {
 class Team {
   int _score = 0;
   final _players = <Player>[];
+  final String name;
 
-  Team.players(List<Player> players) {
+  Team.players(List<Player> players, {this.name = ''}) {
     final uniquePlayers = <Player>{};
     players.retainWhere((element) => uniquePlayers.add(element));
     _players.addAll(players);

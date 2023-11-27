@@ -22,6 +22,11 @@ void main() {
 
       expect(team.players.length, equals(2));
     });
+
+    test('should be constructable with a name', () {
+      final team = Team.players([], name: 'Test team');
+      expect(team.name, equals('Test team'));
+    });
   });
 
   group('Players', () {
