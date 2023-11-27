@@ -16,26 +16,23 @@ interface class Player {
 /// A collection of [Player]s and a shared [score].
 class Team {
   int _score = 0;
+  final _players = <Player>[];
 
-  Team();
   Team.players(List<Player> players) {
-    this.players.addAll(players);
+    final uniquePlayers = <Player>{};
+    players.retainWhere((element) => uniquePlayers.add(element));
+    _players.addAll(players);
   }
 
   /// The current score for the [Team].
   int get score => _score;
 
-  /// A set of unique [Player]s.
-  final players = <Player>{};
+  /// A list of unique [Player]s.
+  List<Player> get players => List.unmodifiable(_players);
 
   /// Add to the [Team]s current [score].
   bool incrementScore(int by) {
     _score += by;
     return _score >= 11;
-  }
-
-  /// Returns a set of all [Player]s that are in both [Team]s.
-  static Set<Player> getConflicts(Team team, Team otherTeam) {
-    return team.players.intersection(otherTeam.players);
   }
 }
