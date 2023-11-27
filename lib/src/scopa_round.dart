@@ -44,12 +44,6 @@ class ScopaRound {
     _manager.dealAll(poolCards.sublist(poolCards.length - 4), _table.round);
   }
 
-  void _nextPlayer() {
-    if (++_currentPlayerIndex == _table.seats.length) {
-      _currentPlayerIndex = 0;
-    }
-  }
-
   /// Play a turn for the current player
   RoundState play(Card playCard, [List<Card>? matchCards]) {
     // TODO: Validate play card is in current player hand
@@ -99,12 +93,15 @@ class ScopaRound {
       dealPlayers();
     }
 
+    if (++_currentPlayerIndex == _table.seats.length) {
+      _currentPlayerIndex = 0;
+    }
+
     // Check if capture was a scopa
     if (_table.round.cards.isEmpty) {
       return RoundState.scopa;
     }
 
-    _nextPlayer();
     return RoundState.next;
   }
 }
