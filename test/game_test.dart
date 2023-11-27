@@ -4,8 +4,8 @@ import 'package:test/test.dart';
 
 void main() {
   group('Scopa game', () {
-    test('can be constructed with a set of teams', () {
-      final game = Game({
+    test('can be constructed with a list of teams', () {
+      final game = Game([
         Team.players([
           Player('1-1'),
           Player('1-2'),
@@ -14,7 +14,7 @@ void main() {
           Player('2-1'),
           Player('2-2'),
         ])
-      });
+      ]);
 
       expect(game.table.seats.length, equals(4));
       for (final seat in game.table.seats) {
@@ -23,11 +23,11 @@ void main() {
     });
 
     test('can be constructed with an empty set of teams', () {
-      expect(Game({}), isNotNull);
+      expect(Game([]), isNotNull);
     });
 
     test('returns a setup round on next round', () {
-      final game = Game({});
+      final game = Game([]);
 
       final round = game.nextRound();
       // TODO: Check with function flags if more needs to be asserted in this test
@@ -35,6 +35,16 @@ void main() {
       // when it should probably assert more about the table/player hand states
 
       expect(round, isNotNull);
+    });
+
+    test('can get a list of teams', () {
+      final teams = [
+        Team.players([Player('Player 1')]),
+        Team.players([Player('Player 2')])
+      ];
+      final game = Game(teams);
+
+      expect(game.teams, containsAll(teams));
     });
   });
 }

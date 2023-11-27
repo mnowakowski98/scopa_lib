@@ -7,8 +7,10 @@ import 'package:scopa_lib/tabletop_lib.dart';
 /// Driving class for the Scopa game
 class Game {
   final manager = HandManager(ScopaDeck.instance);
-  final Set<Team> _teams;
+  final List<Team> _teams;
   late final ScopaTable table;
+
+  List<Team> get teams => List.unmodifiable(_teams);
 
   Game(this._teams) {
     if (_teams.isEmpty) {
@@ -24,7 +26,7 @@ class Game {
     var teamIndex = 0;
     var playerIndex = 0;
     for (final seat in table.seats) {
-      seat.player = _teams.elementAt(teamIndex).players.elementAt(playerIndex);
+      seat.player = _teams[teamIndex].players[playerIndex];
 
       if (++teamIndex == _teams.length) {
         teamIndex = 0;
