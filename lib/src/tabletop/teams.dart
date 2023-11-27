@@ -26,16 +26,11 @@ class Team {
   int get score => _score;
 
   /// A set of unique [Player]s.
-  final players = <Player>{};
+  final players = <Player>[];
 
   /// Add to the [Team]s current [score].
   bool incrementScore(int by) {
     _score += by;
     return _score >= 11;
-  }
-
-  /// Returns a set of all [Player]s that are in both [Team]s.
-  static Set<Player> getConflicts(Team team, Team otherTeam) {
-    return team.players.intersection(otherTeam.players);
   }
 }
