@@ -181,6 +181,12 @@ void main() {
 
           expect(roundState, equals(RoundState.ending));
         });
+
+        test('an ending result when there are no players', () {
+          final round = getTestRound(0).$1;
+
+          expect(round.play(Card('Denari', 2)), equals(RoundState.ending));
+        });
       });
     });
   });
