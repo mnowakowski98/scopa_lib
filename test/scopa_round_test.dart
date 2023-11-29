@@ -132,6 +132,12 @@ void main() {
         expect(round.currentPlayer, isNot(firstPlayer));
       });
 
+      test('sets the current player as null if there are no players', () {
+        final round = getTestRound(0).$1;
+
+        expect(round.currentPlayer, isNull);
+      });
+
       test(
           'throws an argument error if match cards are not summed to the play card',
           () {
