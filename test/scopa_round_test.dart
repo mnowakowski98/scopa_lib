@@ -152,6 +152,20 @@ void main() {
         expect(round.captureHands.values.first.cards, isEmpty);
       });
 
+      test('Redeals the round hand when empty', () {
+        final round = getTestRound();
+        round.$1.resetPool();
+        final playCard = Card('Bastoni', 6);
+        final matchCards = [Card('Coppe', 2), Card('Denari', 4)];
+        round.$2.dealAll(matchCards, round.$3.round);
+        round.$2.deal(playCard, round.$1.playerHands.values.first);
+
+        final roundState = round.$1.play(playCard, matchCards);
+        assert(roundState == RoundState.scopa);
+
+        expect(round.$3.round.cards, hasLength(4));
+      });
+
       group('returns', () {
         test('a scopa result if a scopa was scored', () {
           final round = getTestRound();

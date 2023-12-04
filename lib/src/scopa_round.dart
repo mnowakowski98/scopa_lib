@@ -9,6 +9,7 @@ class ScopaRound {
 
   final playerHands = <Player, Hand>{};
   final captureHands = <Player, Hand>{};
+  final _scopas = <Player, int>{};
 
   var _currentPlayerIndex = 0;
 
@@ -16,10 +17,13 @@ class ScopaRound {
   Player? get currentPlayer =>
       _table.seats.isNotEmpty ? _table.seats[_currentPlayerIndex].player : null;
 
+  Map<Player, int> get scopas => Map.unmodifiable(_scopas);
+
   ScopaRound(this._manager, this._table) {
     for (final seat in _table.seats) {
       playerHands[seat.player!] = Hand(_manager);
       captureHands[seat.player!] = Hand(_manager);
+      _scopas[seat.player!] = 0;
     }
   }
 
@@ -98,8 +102,11 @@ class ScopaRound {
       _currentPlayerIndex = 0;
     }
 
-    // Check if capture was a scopa
+    // Check if capture was a scopa and redeal round
     if (_table.round.cards.isEmpty) {
+      final oldScopas = _scopas[currentPlayer]!;
+      _scopas[currentPlayer!] = oldScopas + 1;
+      dealRound();
       return RoundState.scopa;
     }
 
