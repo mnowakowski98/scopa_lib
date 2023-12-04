@@ -77,9 +77,11 @@ class ScopaRound {
       }
     }
 
-    // Check if round should end
-    // TODO: Update to check that player hands are empty too
-    if (_table.pool.cards.isEmpty) {
+    final canRedeal = _table.pool.cards.length >= _table.seats.length * 3;
+    final playerHandsAreEmpty =
+        playerHands.values.every((hand) => hand.cards.isEmpty);
+
+    if (canRedeal == false && playerHandsAreEmpty == true) {
       // TODO: Capture round cards to player that last captured
 
       for (final hand in playerHands.values) {
@@ -89,12 +91,11 @@ class ScopaRound {
         _manager.unmanage(hand);
       }
 
-      // TODO: Make everything as read only as possible
       return RoundState.ending;
     }
 
     // Redeal players if needed
-    if (playerHands.values.every((hand) => hand.cards.isEmpty)) {
+    if (canRedeal == true && playerHandsAreEmpty == true) {
       dealPlayers();
     }
 

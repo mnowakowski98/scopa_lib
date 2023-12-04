@@ -114,11 +114,35 @@ void main() {
         round.resetPool();
         round.dealPlayers();
 
-        for (var i = 0; i > 3; i++) {
+        for (var i = 0; i < 3; i++) {
           round.play(playerHand.cards[playerHand.cards.length - 1]);
         }
 
         expect(playerHand.cards.length, equals(3));
+      });
+
+      test('does not redeal players if there are not enough pool cards', () {
+        final roundStuff = getTestRound(2);
+        final round = roundStuff.$1;
+        final manager = roundStuff.$2;
+        final table = roundStuff.$3;
+
+        for (var i = 0; i < 8; i++) {
+          manager.deal(manager.deck.cards.elementAt(i), table.pool);
+        }
+
+        round.dealPlayers();
+        assert(table.pool.cards.length == 2);
+
+        RoundState? roundState;
+        for (var i = 0; i < 6; i++) {
+          final playerHand = round.playerHands[round.currentPlayer]!;
+          roundState =
+              round.play(playerHand.cards[playerHand.cards.length - 1]);
+        }
+
+        assert(roundState == RoundState.ending);
+        expect(table.pool.cards.length, equals(2));
       });
 
       test('sets the next player if not ending', () {

@@ -1,6 +1,8 @@
 ## 0.6.0
 - Game now tracks team scoring.
 - Round hand now redeals when a play empties it.
+- Fixed error with round trying to deal from an empty pool
+   - Round now ends when player hands are empty and there aren't enough pool cards
 
 ## 0.5.2
 - Fixed an error with playing a round when there are no players.
