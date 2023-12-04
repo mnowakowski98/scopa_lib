@@ -1,3 +1,7 @@
+## 0.6.0
+- Game now tracks team scoring.
+- Round hand now redeals when a play empties it.
+
 ## 0.5.2
 - Fixed an error with playing a round when there are no players.
 
