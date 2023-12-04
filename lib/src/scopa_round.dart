@@ -13,7 +13,8 @@ class ScopaRound {
   var _currentPlayerIndex = 0;
 
   /// The [Player] that the next call to [play] will use.
-  Player? get currentPlayer => _table.seats[_currentPlayerIndex].player;
+  Player? get currentPlayer =>
+      _table.seats.isNotEmpty ? _table.seats[_currentPlayerIndex].player : null;
 
   ScopaRound(this._manager, this._table) {
     for (final seat in _table.seats) {
