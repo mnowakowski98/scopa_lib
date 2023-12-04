@@ -48,23 +48,22 @@ void main() {
     });
 
     test('awards a point for each scopa', () {
-      final player1 = Player('Player 1');
-      final teams = [
-        Team.players([player1]),
-      ];
-
-      final game = Game(teams);
+      final player = Player('Player 1');
+      final team = Team.players([player]);
+      final game = Game([team]);
       final round = ScopaRound(game.manager, game.table);
+      round.resetPool();
 
       final playCard = Card('Bastoni', 7);
       final matchCards = [Card('Denari', 4), Card('Coppe', 3)];
       game.manager.dealAll(matchCards, game.table.round);
-      game.manager.deal(playCard, round.playerHands[player1]!);
+      game.manager.deal(playCard, round.playerHands[player]!);
 
-      round.play(playCard, matchCards);
+      final roundState = round.play(playCard, matchCards);
+      assert(roundState == RoundState.scopa);
       game.scoreRound(round);
 
-      expect(game.teamScores[player1], equals(1));
+      expect(game.teamScores[team], equals(1));
     });
   });
 }
