@@ -1,3 +1,6 @@
+## 0.5.2
+- Fixed an error with playing a round when there are no players.
+
 ## 0.5.1
 
 - Ran coverage reporting tests and tested or culled uncovered code.
