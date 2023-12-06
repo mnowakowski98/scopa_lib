@@ -7,9 +7,13 @@ class ScopaRound {
   final HandManager _manager;
   final ScopaTable _table;
 
-  final playerHands = <Player, Hand>{};
-  final captureHands = <Player, Hand>{};
+  final _playerHands = <Player, Hand>{};
+  final _captureHands = <Player, Hand>{};
   final _scopas = <Player, int>{};
+
+  Map<Player, Hand> get playerHands => Map.unmodifiable(_playerHands);
+  Map<Player, Hand> get captureHands => Map.unmodifiable(_captureHands);
+  Map<Player, int> get scopas => Map.unmodifiable(_scopas);
 
   var _currentPlayerIndex = 0;
 
@@ -17,12 +21,10 @@ class ScopaRound {
   Player? get currentPlayer =>
       _table.seats.isNotEmpty ? _table.seats[_currentPlayerIndex].player : null;
 
-  Map<Player, int> get scopas => Map.unmodifiable(_scopas);
-
   ScopaRound(this._manager, this._table) {
     for (final seat in _table.seats) {
-      playerHands[seat.player!] = Hand(_manager);
-      captureHands[seat.player!] = Hand(_manager);
+      _playerHands[seat.player!] = Hand(_manager);
+      _captureHands[seat.player!] = Hand(_manager);
       _scopas[seat.player!] = 0;
     }
   }
@@ -77,6 +79,17 @@ class ScopaRound {
     return isValidPlayCard && isValidMatchCards;
   }
 
+  RoundState endRound() {
+    for (final hand in playerHands.values) {
+      _manager.unmanage(hand);
+    }
+    for (final hand in captureHands.values) {
+      _manager.unmanage(hand);
+    }
+
+    return RoundState.ending;
+  }
+
   /// Play a turn for the current player
   RoundState play(Card playCard, [List<Card>? matchCards]) {
     if (currentPlayer == null) return RoundState.ending;
@@ -121,32 +134,30 @@ class ScopaRound {
 
     if (canRedealPlayers == false && playerHandsAreEmpty == true) {
       // TODO: Capture round cards to player that last captured
-
-      for (final hand in playerHands.values) {
-        _manager.unmanage(hand);
-      }
-      for (final hand in captureHands.values) {
-        _manager.unmanage(hand);
-      }
-
-      return RoundState.ending;
+      return endRound();
     }
 
     // Redeal players if needed
-    if (canRedealPlayers == true && playerHandsAreEmpty == true) {
+    if (canRedealPlayers && playerHandsAreEmpty) {
       dealPlayers();
+    }
+
+    final canRedealRound = _table.pool.cards.length >= 4;
+
+    // Check if capture was a scopa
+    if (_table.round.cards.isEmpty) {
+      final oldScopas = _scopas[currentPlayer]!;
+      _scopas[currentPlayer!] = oldScopas + 1;
+      if (canRedealRound == false) return endRound();
+      return RoundState.scopa;
+    }
+
+    if (_table.round.cards.isEmpty && canRedealRound) {
+      dealRound();
     }
 
     if (++_currentPlayerIndex == _table.seats.length) {
       _currentPlayerIndex = 0;
-    }
-
-    // Check if capture was a scopa and redeal round
-    if (_table.round.cards.isEmpty) {
-      final oldScopas = _scopas[currentPlayer]!;
-      _scopas[currentPlayer!] = oldScopas + 1;
-      dealRound();
-      return RoundState.scopa;
     }
 
     return RoundState.next;
