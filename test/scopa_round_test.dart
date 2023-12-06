@@ -139,6 +139,43 @@ void main() {
       });
 
       test(
+          'throws a state error if the playcard is not in the current player hand',
+          () {
+        final roundObjects = getTestRound();
+        final round = roundObjects.$1;
+        final manager = roundObjects.$2;
+        final table = roundObjects.$3;
+
+        manager.deal(
+            Card('Bastoni', 7), round.playerHands[round.currentPlayer]!);
+
+        expect(() => round.play(Card('Coppe', 2)), throwsStateError);
+        expect(table.round.cards, isEmpty);
+      });
+
+      test('throws a state error if any match cards are not in the round hand',
+          () {
+        final roundObjects = getTestRound();
+        final round = roundObjects.$1;
+        final manager = roundObjects.$2;
+        final table = roundObjects.$3;
+
+        manager.deal(
+            Card('Bastoni', 7), round.playerHands[round.currentPlayer]!);
+
+        manager.deal(Card('Coppe', 4), table.round);
+
+        expect(
+            () => round.play(
+                Card('Bastoni', 7), [Card('Coppe', 4), Card('Denari', 10)]),
+            throwsStateError);
+
+        expect(round.playerHands[round.currentPlayer]!.cards,
+            contains(Card('Bastoni', 7)));
+        expect(table.round.cards, contains(Card('Coppe', 4)));
+      });
+
+      test(
           'throws an argument error if match cards are not summed to the play card',
           () {
         final manager = HandManager(ScopaDeck.instance);
