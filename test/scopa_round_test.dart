@@ -138,14 +138,14 @@ void main() {
         round.dealPlayers();
         assert(table.pool.cards.length == 2);
 
-        RoundState? roundState;
+        bool? roundState;
         for (var i = 0; i < 6; i++) {
           final playerHand = round.playerHands[round.currentPlayer]!;
           roundState =
               round.play(playerHand.cards[playerHand.cards.length - 1]);
         }
 
-        assert(roundState == RoundState.ending);
+        assert(roundState == false);
         expect(table.pool.cards.length, equals(2));
       });
 
@@ -249,21 +249,8 @@ void main() {
       });
 
       group('returns', () {
-        test('a scopa result if a scopa was scored', () {
-          final round = getTestRound();
-          round.$1.resetPool();
-          final playCard = Card('Bastoni', 6);
-          final matchCards = [Card('Coppe', 2), Card('Denari', 4)];
-          round.$2.dealAll(matchCards, round.$3.round);
-          round.$2.deal(playCard, round.$1.playerHands.values.first);
-
-          final roundState = round.$1.play(playCard, matchCards);
-
-          expect(roundState, equals(RoundState.scopa));
-        });
-
         // TODO: Update test to end when all player hands are empty too
-        test('an ending result when the pool hand is empty', () {
+        test('false when the pool hand is empty', () {
           final roundInfo = getTestRound();
           final round = roundInfo.$1;
           final manager = roundInfo.$2;
@@ -274,10 +261,10 @@ void main() {
 
           final roundState = round.play(Card('Denari', 2), [Card('Coppe', 2)]);
 
-          expect(roundState, equals(RoundState.ending));
+          expect(roundState, equals(false));
         });
 
-        test('an ending result when there are no players', () {
+        test('false when there are no players', () {
           final round = getTestRound(0).$1;
 
           expect(round.play(Card('Denari', 2)), equals(RoundState.ending));
