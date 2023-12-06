@@ -49,15 +49,46 @@ class ScopaRound {
     _manager.dealAll(poolCards.sublist(poolCards.length - 4), _table.round);
   }
 
+  bool _validatePlayCard(Card playCard) =>
+      playerHands[currentPlayer]!.cards.contains(playCard);
+  bool _validateMatchCards(List<Card> matchCards) {
+    bool areValid = true;
+    for (final card in matchCards) {
+      if (_table.round.cards.contains(card) == false) {
+        areValid = false;
+        break;
+      }
+    }
+    return areValid;
+  }
+
+  bool validatePlay(Card playCard, [List<Card>? matchCards]) {
+    bool isValidPlayCard = _validatePlayCard(playCard);
+    bool isValidMatchCards = true;
+    if (matchCards != null && matchCards.isNotEmpty) {
+      isValidMatchCards = _validateMatchCards(matchCards);
+    }
+    return isValidPlayCard && isValidMatchCards;
+  }
+
   /// Play a turn for the current player
   RoundState play(Card playCard, [List<Card>? matchCards]) {
-    // TODO: Validate play card is in current player hand
-    // TODO: Validate all match cards are in the round hand
+    if (currentPlayer == null) return RoundState.ending;
+
+    if (_validatePlayCard(playCard) == false) {
+      throw StateError(
+          'Play card $playCard is not in the current player (${currentPlayer!.name}) hand.');
+    }
 
     // Play a single card without capture
     if (matchCards == null || matchCards.isEmpty) {
       _manager.deal(playCard, _table.round);
     } else {
+      if (_validateMatchCards(matchCards) == false) {
+        throw StateError(
+            'Match cards contain cards that are not in the round hand.');
+      }
+
       // Capture a single matching card
       if (matchCards.length == 1) {
         _manager.deal(playCard, captureHands[currentPlayer]!);
@@ -77,11 +108,12 @@ class ScopaRound {
       }
     }
 
-    final canRedeal = _table.pool.cards.length >= _table.seats.length * 3;
+    final canRedealPlayers =
+        _table.pool.cards.length >= _table.seats.length * 3;
     final playerHandsAreEmpty =
         playerHands.values.every((hand) => hand.cards.isEmpty);
 
-    if (canRedeal == false && playerHandsAreEmpty == true) {
+    if (canRedealPlayers == false && playerHandsAreEmpty == true) {
       // TODO: Capture round cards to player that last captured
 
       for (final hand in playerHands.values) {
@@ -95,7 +127,7 @@ class ScopaRound {
     }
 
     // Redeal players if needed
-    if (canRedeal == true && playerHandsAreEmpty == true) {
+    if (canRedealPlayers == true && playerHandsAreEmpty == true) {
       dealPlayers();
     }
 

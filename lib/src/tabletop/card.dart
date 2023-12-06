@@ -12,4 +12,7 @@ interface class Card {
 
   @override
   int get hashCode => '$suite-$value'.hashCode;
+
+  @override
+  String toString() => '$suite - $value';
 }

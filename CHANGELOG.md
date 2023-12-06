@@ -4,6 +4,9 @@
 - Fixed error with round trying to deal from an empty pool
    - Round now ends when player hands are empty and there aren't enough pool cards
 
+## 0.5.3
+- Added validation to ensure that played cards are in the correct hands.
+
 ## 0.5.2
 - Fixed an error with playing a round when there are no players.
 
