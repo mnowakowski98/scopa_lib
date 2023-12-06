@@ -1,3 +1,6 @@
+## 0.5.2
+- Added validation to ensure that played cards are in the correct hands.
+
 ## 0.5.1
 
 - Ran coverage reporting tests and tested or culled uncovered code.
