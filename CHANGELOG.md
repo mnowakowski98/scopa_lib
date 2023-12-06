@@ -1,8 +1,9 @@
 ## 0.6.0
 - Game now tracks team scoring.
+   - Rounds now track the number of scopas each player made.
 - Round hand now redeals when a play empties it.
-- Fixed error with round trying to deal from an empty pool
-   - Round now ends when player hands are empty and there aren't enough pool cards
+- Fixed error with round trying to deal from an empty pool.
+   - Round now ends when player hands are empty and there aren't enough pool cards.
 
 ## 0.5.3
 - Added validation to ensure that played cards are in the correct hands.
@@ -13,10 +14,10 @@
 ## 0.5.1
 
 - Ran coverage reporting tests and tested or culled uncovered code.
-    - Added test for setting a new player on round play
-    - Added test for dealing the round
-    - Added test for returning a new round on next round
-    - Removed cards parameter in Hand constructor
+    - Added test for setting a new player on round play.
+    - Added test for dealing the round.
+    - Added test for returning a new round on next round.
+    - Removed cards parameter in Hand constructor.
 
 ## 0.1.0 - 0.5.0
 

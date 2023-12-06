@@ -51,22 +51,28 @@ class ScopaRound {
 
   bool _validatePlayCard(Card playCard) =>
       playerHands[currentPlayer]!.cards.contains(playCard);
+
   bool _validateMatchCards(List<Card> matchCards) {
-    bool areValid = true;
+    var areInRoundHand = true;
     for (final card in matchCards) {
       if (_table.round.cards.contains(card) == false) {
-        areValid = false;
+        areInRoundHand = false;
         break;
       }
     }
-    return areValid;
+
+    return areInRoundHand;
   }
 
   bool validatePlay(Card playCard, [List<Card>? matchCards]) {
-    bool isValidPlayCard = _validatePlayCard(playCard);
-    bool isValidMatchCards = true;
+    final isValidPlayCard = _validatePlayCard(playCard);
+    var isValidMatchCards = true;
     if (matchCards != null && matchCards.isNotEmpty) {
       isValidMatchCards = _validateMatchCards(matchCards);
+      final cardsSummate = matchCards.fold(
+              0, (previousValue, element) => previousValue + element.value) ==
+          playCard.value;
+      isValidMatchCards = isValidMatchCards && cardsSummate;
     }
     return isValidPlayCard && isValidMatchCards;
   }
