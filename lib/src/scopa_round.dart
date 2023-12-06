@@ -79,7 +79,7 @@ class ScopaRound {
     return isValidPlayCard && isValidMatchCards;
   }
 
-  RoundState endRound() {
+  bool endRound() {
     for (final hand in playerHands.values) {
       _manager.unmanage(hand);
     }
@@ -87,12 +87,13 @@ class ScopaRound {
       _manager.unmanage(hand);
     }
 
-    return RoundState.ending;
+    return false;
   }
 
-  /// Play a turn for the current player
-  RoundState play(Card playCard, [List<Card>? matchCards]) {
-    if (currentPlayer == null) return RoundState.ending;
+  /// Play a turn for the current player.
+  /// Returns true if the round is continuing, false if ending
+  bool play(Card playCard, [List<Card>? matchCards]) {
+    if (currentPlayer == null) return false;
 
     if (_validatePlayCard(playCard) == false) {
       throw StateError(
@@ -148,18 +149,17 @@ class ScopaRound {
     if (_table.round.cards.isEmpty) {
       final oldScopas = _scopas[currentPlayer]!;
       _scopas[currentPlayer!] = oldScopas + 1;
-      if (canRedealRound == false) return endRound();
-      return RoundState.scopa;
-    }
-
-    if (_table.round.cards.isEmpty && canRedealRound) {
-      dealRound();
+      if (canRedealRound == false) {
+        return endRound();
+      } else {
+        dealRound();
+      }
     }
 
     if (++_currentPlayerIndex == _table.seats.length) {
       _currentPlayerIndex = 0;
     }
 
-    return RoundState.next;
+    return true;
   }
 }

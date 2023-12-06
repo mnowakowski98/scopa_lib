@@ -4,6 +4,8 @@
 - Round hand now redeals when a play empties it.
 - Fixed error with round trying to deal from an empty pool.
    - Round now ends when player hands are empty and there aren't enough pool cards.
+- Made round state exports unmodifiable
+- Changed play function signature to return true/false if the round is continuing.
 
 ## 0.5.3
 - Added validation to ensure that played cards are in the correct hands.
