@@ -71,14 +71,15 @@ void main() {
       });
 
       test('captures the card from the round hand if one matcher', () {
-        final manager = HandManager(ScopaDeck.instance);
-        final table = ScopaTable(1, manager);
-        table.seats[0].player = Player('test');
+        final roundObjects = getTestRound();
+        final round = roundObjects.$1;
+        final manager = roundObjects.$2;
+        final table = roundObjects.$3;
         final matchCard = Card('Coppe', 7);
         final playCard = Card('Denari', 7);
 
-        final round = ScopaRound(manager, table);
-        manager.deal(playCard, round.playerHands[table.seats[0].player]!);
+        manager.deal(playCard, round.playerHands[round.currentPlayer]!);
+        manager.deal(matchCard, table.round);
 
         round.play(playCard, [matchCard]);
 
@@ -91,12 +92,15 @@ void main() {
       test(
           'captures cards from the round hand if matchers sum up to the play card',
           () {
-        final manager = HandManager(ScopaDeck.instance);
-        final table = ScopaTable(1, manager);
-        table.seats[0].player = Player('test');
+        final roundObjects = getTestRound();
+        final round = roundObjects.$1;
+        final manager = roundObjects.$2;
+        final table = roundObjects.$3;
         final matchCards = [Card('Coppe', 2), Card('Denari', 4)];
         final playCard = Card('Bastoni', 6);
-        final round = ScopaRound(manager, table);
+
+        manager.deal(playCard, round.playerHands[round.currentPlayer]!);
+        manager.dealAll(matchCards, table.round);
 
         round.play(playCard, matchCards);
 
@@ -178,12 +182,15 @@ void main() {
       test(
           'throws an argument error if match cards are not summed to the play card',
           () {
-        final manager = HandManager(ScopaDeck.instance);
-        final table = ScopaTable(1, manager);
-        table.seats[0].player = Player('test');
+        final roundObjects = getTestRound();
+        final round = roundObjects.$1;
+        final manager = roundObjects.$2;
+        final table = roundObjects.$3;
         final matchCards = [Card('Coppe', 2), Card('Denari', 1)];
         final playCard = Card('Bastoni', 6);
-        final round = ScopaRound(manager, table);
+
+        manager.deal(playCard, round.playerHands[round.currentPlayer]!);
+        manager.dealAll(matchCards, table.round);
 
         expect(() => round.play(playCard, matchCards), throwsArgumentError);
         expect(round.captureHands.values.first.cards, isEmpty);
@@ -209,12 +216,11 @@ void main() {
           final round = roundInfo.$1;
           final manager = roundInfo.$2;
           final table = roundInfo.$3;
-          manager.deal(Card('Coppe', 2), table.pool);
-          manager.deal(Card('Denari', 2), round.playerHands.values.first);
+          manager.deal(Card('Coppe', 2), table.round);
+          manager.deal(
+              Card('Denari', 2), round.playerHands[round.currentPlayer]!);
 
-          final roundState = round.play(
-              round.playerHands.values.first.cards.first,
-              [table.pool.cards.first]);
+          final roundState = round.play(Card('Denari', 2), [Card('Coppe', 2)]);
 
           expect(roundState, equals(RoundState.ending));
         });

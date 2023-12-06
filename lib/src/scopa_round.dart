@@ -69,6 +69,8 @@ class ScopaRound {
 
   /// Play a turn for the current player
   RoundState play(Card playCard, [List<Card>? matchCards]) {
+    if (currentPlayer == null) return RoundState.ending;
+
     if (_validatePlayCard(playCard) == false) {
       throw StateError(
           'Play card $playCard is not in the current player (${currentPlayer!.name}) hand.');
