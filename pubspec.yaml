@@ -1,6 +1,6 @@
 name: scopa_lib
 description: A library to manage and play a game of Scopa.
-version: 0.5.0
+version: 0.6.0
 repository: https://github.com/mnowakowski98/scopa_lib
 
 environment:
