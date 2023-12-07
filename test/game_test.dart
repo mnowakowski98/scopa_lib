@@ -78,7 +78,29 @@ void main() {
     });
 
     test('awards a point for having the most fishes', () {
-      // TODO: Figure out a better way to test scoring
+      final player1 = Player('Player 1');
+      final player2 = Player('Player 2');
+      final team = Team.players([player2]);
+      final game = Game([
+        team,
+        Team.players([player1])
+      ]);
+      final round = ScopaRound(game.manager, game.table);
+      round.resetPool();
+
+      game.manager.dealAll(
+          [Card('Bastoni', 7), Card('Coppe', 3)], round.captureHands[player1]!);
+
+      game.manager.dealAll([
+        Card('Coppe', 8),
+        Card('Denari', 7),
+        Card('Bastoni', 3),
+        Card('Spade', 4)
+      ], round.captureHands[player2]!);
+
+      game.scoreRound(round);
+
+      expect(game.teamScores[team], equals(1));
     });
   });
 }
