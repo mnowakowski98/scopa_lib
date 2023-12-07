@@ -228,8 +228,7 @@ void main() {
         round.$2.dealAll(matchCards, round.$3.round);
         round.$2.deal(playCard, round.$1.playerHands.values.first);
 
-        final roundState = round.$1.play(playCard, matchCards);
-        assert(roundState == RoundState.scopa);
+        round.$1.play(playCard, matchCards);
 
         expect(round.$1.scopas[round.$1.currentPlayer], equals(1));
       });
@@ -242,8 +241,7 @@ void main() {
         round.$2.dealAll(matchCards, round.$3.round);
         round.$2.deal(playCard, round.$1.playerHands.values.first);
 
-        final roundState = round.$1.play(playCard, matchCards);
-        assert(roundState == RoundState.scopa);
+        round.$1.play(playCard, matchCards);
 
         expect(round.$3.round.cards, hasLength(4));
       });
@@ -267,7 +265,7 @@ void main() {
         test('false when there are no players', () {
           final round = getTestRound(0).$1;
 
-          expect(round.play(Card('Denari', 2)), equals(RoundState.ending));
+          expect(round.play(Card('Denari', 2)), equals(false));
         });
       });
     });

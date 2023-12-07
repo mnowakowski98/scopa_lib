@@ -59,8 +59,7 @@ void main() {
       game.manager.dealAll(matchCards, game.table.round);
       game.manager.deal(playCard, round.playerHands[player]!);
 
-      final roundState = round.play(playCard, matchCards);
-      assert(roundState == RoundState.scopa);
+      round.play(playCard, matchCards);
       game.scoreRound(round);
 
       expect(game.teamScores[team], equals(1));

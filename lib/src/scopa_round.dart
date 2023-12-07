@@ -156,6 +156,7 @@ class ScopaRound {
       }
     }
 
+    // Select the next player
     if (++_currentPlayerIndex == _table.seats.length) {
       _currentPlayerIndex = 0;
     }

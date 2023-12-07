@@ -52,12 +52,14 @@ class Game {
   }
 
   void scoreRound(ScopaRound round) {
+    // Add points for player scopas
     for (final team in _teams) {
       final oldScore = _teamScores[team]!;
       final numScopas = team.players.fold(
           0, (previousValue, player) => round.scopas[player]! + previousValue);
       _teamScores[team] = oldScore + numScopas;
     }
+
     // TODO: Add point for most fishes
     // TODO: Add point for fishing most coppes
     // TODO: Add point for fishing the 7 coppe
