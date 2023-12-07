@@ -48,21 +48,37 @@ void main() {
     });
 
     test('awards a point for each scopa', () {
-      final player = Player('Player 1');
-      final team = Team.players([player]);
-      final game = Game([team]);
+      final player1 = Player('Player 1');
+      final player2 = Player('Player 2');
+      final team = Team.players([player1]);
+      final game = Game([
+        team,
+        Team.players([player2])
+      ]);
       final round = ScopaRound(game.manager, game.table);
       round.resetPool();
 
       final playCard = Card('Bastoni', 7);
       final matchCards = [Card('Denari', 4), Card('Coppe', 3)];
+
       game.manager.dealAll(matchCards, game.table.round);
-      game.manager.deal(playCard, round.playerHands[player]!);
+      game.manager.deal(playCard, round.playerHands[player1]!);
+
+      game.manager.dealAll([
+        Card('Coppe', 7),
+        Card('Denari', 7),
+        Card('Bastoni', 3),
+        Card('Spade', 4)
+      ], round.captureHands[player2]!);
 
       round.play(playCard, matchCards);
       game.scoreRound(round);
 
       expect(game.teamScores[team], equals(1));
+    });
+
+    test('awards a point for having the most fishes', () {
+      // TODO: Figure out a better way to test scoring
     });
   });
 }
