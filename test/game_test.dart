@@ -102,5 +102,32 @@ void main() {
 
       expect(game.teamScores[team], equals(1));
     });
+
+    test('awards a point for fishing the most coppes', () {
+      final player1 = Player('Player 1');
+      final player2 = Player('Player 2');
+      final team = Team.players([player1]);
+      final game = Game([
+        team,
+        Team.players([player2])
+      ]);
+      final round = ScopaRound(game.manager, game.table);
+      round.resetPool();
+
+      game.manager.dealAll(
+          [Card('Coppe', 8), Card('Coppe', 3), Card('Coppe', 4)],
+          round.captureHands[player1]!);
+
+      game.manager.dealAll([
+        Card('Coppe', 1),
+        Card('Bastoni', 2),
+        Card('Denari', 8),
+        Card('Spade', 2)
+      ], round.captureHands[player2]!);
+
+      game.scoreRound(round);
+
+      expect(game.teamScores[team], equals(1));
+    });
   });
 }

@@ -66,6 +66,7 @@ class ScopaRound {
     return areInRoundHand;
   }
 
+  /// Checks if [Card]s can make a valid play
   bool validatePlay(Card playCard, [List<Card>? matchCards]) {
     final isValidPlayCard = _validatePlayCard(playCard);
     var isValidMatchCards = true;
@@ -79,7 +80,7 @@ class ScopaRound {
     return isValidPlayCard && isValidMatchCards;
   }
 
-  bool endRound() {
+  bool _endRound() {
     for (final hand in playerHands.values) {
       _manager.unmanage(hand);
     }
@@ -135,7 +136,7 @@ class ScopaRound {
 
     if (canRedealPlayers == false && playerHandsAreEmpty == true) {
       // TODO: Capture round cards to player that last captured
-      return endRound();
+      return _endRound();
     }
 
     // Redeal players if needed
@@ -150,7 +151,7 @@ class ScopaRound {
       final oldScopas = _scopas[currentPlayer]!;
       _scopas[currentPlayer!] = oldScopas + 1;
       if (canRedealRound == false) {
-        return endRound();
+        return _endRound();
       } else {
         dealRound();
       }
