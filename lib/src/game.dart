@@ -130,7 +130,18 @@ class Game {
       _teamScores[playerTeams[player]!] = oldScore + 1;
     }
 
-    // TODO: Add point for fishing the 7 coppe
+    // Add point for fishing the 7 coppe
+    containsCoppe7(element) => element.value.cards.contains(Card('Coppe', 7));
+
+    if (round.captureHands.entries.any((element) => containsCoppe7(element))) {
+      final player = round.captureHands.entries
+          .singleWhere((element) => containsCoppe7(element))
+          .key;
+
+      final oldScore = _teamScores[playerTeams[player]]!;
+      _teamScores[playerTeams[player]!] = oldScore + 1;
+    }
+
     // TODO: Add point for fishing the highest prime
   }
 }
