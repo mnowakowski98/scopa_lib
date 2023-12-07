@@ -17,6 +17,10 @@ class Game {
   /// The scores of each team [Team].
   Map<Team, int> get teamScores => Map.unmodifiable(_teamScores);
 
+  /// A map of [Player]s to which [Team] they're in.
+  Map<Player, Team> get playerTeams => Map.fromEntries(_teams
+      .expand((team) => team.players.map((player) => MapEntry(player, team))));
+
   Game(this._teams) {
     if (_teams.isEmpty) {
       table = ScopaTable(0, manager);
@@ -60,8 +64,35 @@ class Game {
       _teamScores[team] = oldScore + numScopas;
     }
 
-    // TODO: Add point for most fishes
+    // Add a point to the player with the most fishes
+    var isTied = false;
+    final mostFish = round.captureHands.entries
+        .fold<MapEntry<Player, Hand>?>(null, (previousValue, element) {
+      if (previousValue == null) return element;
+
+      final currentIsGreater =
+          element.value.cards.length > previousValue.value.cards.length;
+      final currentIsEqual =
+          element.value.cards.length == previousValue.value.cards.length;
+
+      if (currentIsEqual) {
+        isTied = true;
+      }
+
+      if (currentIsGreater) {
+        isTied = false;
+      }
+
+      return currentIsGreater ? element : previousValue;
+    })!.key;
+
+    if (isTied == false) {
+      final score = _teamScores[playerTeams[mostFish]]!;
+      _teamScores[playerTeams[mostFish]!] = score + 1;
+    }
+
     // TODO: Add point for fishing most coppes
+
     // TODO: Add point for fishing the 7 coppe
     // TODO: Add point for fishing the highest prime
   }
