@@ -91,7 +91,44 @@ class Game {
       _teamScores[playerTeams[mostFish]!] = score + 1;
     }
 
-    // TODO: Add point for fishing most coppes
+    // Add a point for capturing the most coppes
+    final coppeHands = <Player, int>{};
+    for (final player in playerTeams.keys) {
+      final fishedCards = round.captureHands[player]!.cards;
+      if (fishedCards.any((card) => card.suite == 'Coppe')) {
+        final numCoppes = fishedCards.fold(
+            0,
+            (previousValue, element) =>
+                element.suite == 'Coppe' ? previousValue + 1 : previousValue);
+
+        coppeHands[player] = numCoppes;
+      }
+    }
+
+    isTied = false;
+    final mostCoppes = coppeHands.entries.fold(0, (previousValue, element) {
+      final currentIsGreater = element.value > previousValue;
+      final currentIsEqual = element.value == previousValue;
+
+      if (currentIsEqual) {
+        isTied = true;
+      }
+
+      if (currentIsGreater) {
+        isTied = false;
+      }
+
+      return currentIsGreater ? element.value : previousValue;
+    });
+
+    if (isTied == false) {
+      final player = coppeHands.entries
+          .firstWhere((element) => element.value == mostCoppes)
+          .key;
+
+      final oldScore = _teamScores[playerTeams[player]]!;
+      _teamScores[playerTeams[player]!] = oldScore + 1;
+    }
 
     // TODO: Add point for fishing the 7 coppe
     // TODO: Add point for fishing the highest prime
