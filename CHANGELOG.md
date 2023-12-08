@@ -1,5 +1,6 @@
 ## 0.6.0
 - Game now tracks team scoring.
+   - Returns winners on score.
    - Rounds now track the number of scopas each player made.
 - Round hand now redeals when a play empties it.
 - Fixed error with round trying to deal from an empty pool.

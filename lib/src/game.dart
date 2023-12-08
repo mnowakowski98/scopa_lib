@@ -55,7 +55,7 @@ class Game {
     return round;
   }
 
-  void scoreRound(ScopaRound round) {
+  Iterable<Team>? scoreRound(ScopaRound round) {
     // Add points for player scopas
     for (final team in _teams) {
       final oldScore = _teamScores[team]!;
@@ -143,5 +143,20 @@ class Game {
     }
 
     // TODO: Add point for fishing the highest prime
+
+    final winningTeams =
+        teamScores.entries.where((element) => element.value >= 11);
+
+    if (winningTeams.isNotEmpty) {
+      final highestScore = winningTeams.fold(
+          0,
+          (previousValue, element) =>
+              element.value > previousValue ? element.value : previousValue);
+      return winningTeams
+          .where((element) => element.value == highestScore)
+          .map((e) => e.key);
+    }
+
+    return null;
   }
 }
