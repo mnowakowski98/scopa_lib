@@ -8,7 +8,13 @@
 - Made round state exports unmodifiable
 - Changed play function signature to return true/false if the round is continuing.
 
+## 0.5.4
+- Made cards shuffle on pool hand reset.
+
 ## 0.5.3
+- Added validation to ensure that played cards are in the correct hands.
+
+## 0.5.2
 - Added validation to ensure that played cards are in the correct hands.
 
 ## 0.5.2
