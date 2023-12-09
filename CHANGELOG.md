@@ -1,3 +1,9 @@
+## 0.5.4
+- Made cards shuffle on pool hand reset.
+
+## 0.5.3
+- Added validation to ensure that played cards are in the correct hands.
+
 ## 0.5.2
 - Added validation to ensure that played cards are in the correct hands.
 

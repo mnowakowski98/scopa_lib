@@ -26,7 +26,7 @@ class ScopaRound {
   /// Moves and shuffles the whole [ScopaDeck] to the table pool.
   void resetPool() {
     _manager.dealDeck(_table.pool);
-    // TODO: Shuffle the pool hand
+    _table.pool.cards.shuffle();
   }
 
   /// Setup the [ScopaRound] by dealing 3 cards to each player.
