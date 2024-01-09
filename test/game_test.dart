@@ -182,8 +182,48 @@ void main() {
       });
 
       // TODO: Implement the rest of these tests
-      test('returns nothing if no team has won', () {});
-      test('returns a team if the team has won', () {});
+      test('returns nothing if no team has won', () {
+        final game = Game([
+          Team.players([Player('Test')])
+        ]);
+        final round = game.nextRound();
+        expect(game.scoreRound(round), isNull);
+      });
+
+      test('returns a team if the team has won', () {
+        final team = Team.players([Player('Test 1')]);
+        final game = Game([team]);
+        var round = ScopaRound(game.manager, game.table);
+        round.resetPool();
+
+        var matchCards = [
+          Card('Coppe', 4),
+          Card('Coppe', 2),
+          Card('Coppe', 1),
+        ];
+
+        game.manager.dealAll(matchCards, game.table.round);
+
+        final handCards = [
+          Card('Coppe', 7),
+          Card('Denari', 7),
+          Card('Spade', 7),
+          Card('Bastoni', 7)
+        ];
+
+        game.manager
+            .dealAll(handCards, round.playerHands[round.currentPlayer]!);
+
+        round.play(Card('Coppe', 7), matchCards);
+        game.scoreRound(round);
+        assert(game.teamScores[team] == 5);
+
+        game.scoreRound(round);
+        assert(game.teamScores[team] == 10);
+
+        expect(game.scoreRound(round), contains(team));
+      });
+
       test('returns a collection of teams if winning teams have tied', () {});
     });
   });
