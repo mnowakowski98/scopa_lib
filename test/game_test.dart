@@ -46,5 +46,185 @@ void main() {
 
       expect(game.teams, containsAll(teams));
     });
+
+    group('on score', () {
+      test('awards a point for each scopa', () {
+        final player1 = Player('Player 1');
+        final player2 = Player('Player 2');
+        final team = Team.players([player1]);
+        final game = Game([
+          team,
+          Team.players([player2])
+        ]);
+        final round = ScopaRound(game.manager, game.table);
+        round.resetPool();
+
+        final playCard = Card('Bastoni', 7);
+        final matchCards = [Card('Denari', 4), Card('Coppe', 3)];
+
+        game.manager.dealAll(matchCards, game.table.round);
+        game.manager.deal(playCard, round.playerHands[player1]!);
+
+        game.manager.dealAll([
+          Card('Coppe', 7),
+          Card('Denari', 7),
+          Card('Bastoni', 3),
+          Card('Spade', 4)
+        ], round.captureHands[player2]!);
+
+        round.play(playCard, matchCards);
+        game.scoreRound(round);
+
+        expect(game.teamScores[team], equals(1));
+      });
+
+      test('awards a point for having the most fishes', () {
+        final player1 = Player('Player 1');
+        final player2 = Player('Player 2');
+        final team = Team.players([player2]);
+        final game = Game([
+          team,
+          Team.players([player1])
+        ]);
+        final round = ScopaRound(game.manager, game.table);
+        round.resetPool();
+
+        game.manager.dealAll([Card('Bastoni', 7), Card('Coppe', 3)],
+            round.captureHands[player1]!);
+
+        game.manager.dealAll([
+          Card('Coppe', 8),
+          Card('Denari', 7),
+          Card('Bastoni', 3),
+          Card('Spade', 4)
+        ], round.captureHands[player2]!);
+
+        game.scoreRound(round);
+
+        expect(game.teamScores[team], equals(1));
+      });
+
+      test('awards a point for fishing the most coppes', () {
+        final player1 = Player('Player 1');
+        final player2 = Player('Player 2');
+        final team = Team.players([player1]);
+        final game = Game([
+          team,
+          Team.players([player2])
+        ]);
+        final round = ScopaRound(game.manager, game.table);
+        round.resetPool();
+
+        game.manager.dealAll(
+            [Card('Coppe', 8), Card('Coppe', 3), Card('Coppe', 4)],
+            round.captureHands[player1]!);
+
+        game.manager.dealAll([
+          Card('Coppe', 1),
+          Card('Bastoni', 2),
+          Card('Denari', 8),
+          Card('Spade', 2)
+        ], round.captureHands[player2]!);
+
+        game.scoreRound(round);
+
+        expect(game.teamScores[team], equals(1));
+      });
+
+      test('awards a point for capturing the 7 of coppes', () {
+        final player1 = Player('Player 1');
+        final player2 = Player('Player 2');
+        final team = Team.players([player1]);
+        final game = Game([
+          team,
+          Team.players([player2])
+        ]);
+        final round = ScopaRound(game.manager, game.table);
+        round.resetPool();
+
+        game.manager.deal(Card('Coppe', 7), round.captureHands[player1]!);
+
+        game.manager.dealAll([
+          Card('Coppe', 1),
+          Card('Coppe', 2),
+          Card('Denari', 8),
+          Card('Spade', 2)
+        ], round.captureHands[player2]!);
+
+        game.scoreRound(round);
+
+        expect(game.teamScores[team], equals(1));
+      });
+
+      test('awards a point for fishing the highest prime', () {
+        final player1 = Player('Player 1');
+        final player2 = Player('Player 2');
+        final team = Team.players([player1]);
+        final game = Game([
+          team,
+          Team.players([player2])
+        ]);
+        final round = ScopaRound(game.manager, game.table);
+        round.resetPool();
+
+        game.manager.dealAll([
+          Card('Spade', 7),
+          Card('Denari', 7),
+        ], round.captureHands[player1]!);
+
+        game.manager.dealAll([
+          Card('Bastoni', 7),
+          Card('Denari', 2),
+        ], round.captureHands[player2]!);
+
+        game.scoreRound(round);
+        expect(game.teamScores[team], equals(1));
+      });
+
+      // TODO: Implement the rest of these tests
+      test('returns nothing if no team has won', () {
+        final game = Game([
+          Team.players([Player('Test')])
+        ]);
+        final round = game.nextRound();
+        expect(game.scoreRound(round), isNull);
+      });
+
+      test('returns a team if the team has won', () {
+        final team = Team.players([Player('Test 1')]);
+        final game = Game([team]);
+        var round = ScopaRound(game.manager, game.table);
+        round.resetPool();
+
+        var matchCards = [
+          Card('Coppe', 4),
+          Card('Coppe', 2),
+          Card('Coppe', 1),
+        ];
+
+        game.manager.dealAll(matchCards, game.table.round);
+
+        final handCards = [
+          Card('Coppe', 7),
+          Card('Denari', 7),
+          Card('Spade', 7),
+          Card('Bastoni', 7)
+        ];
+
+        game.manager
+            .dealAll(handCards, round.playerHands[round.currentPlayer]!);
+
+        round.play(Card('Coppe', 7), matchCards);
+        game.scoreRound(round);
+        assert(game.teamScores[team] == 5);
+
+        game.scoreRound(round);
+        assert(game.teamScores[team] == 10);
+
+        expect(game.scoreRound(round), contains(team));
+      });
+
+      test('returns a collection of teams if winning teams have tied', () {});
+    });
   });
 }

@@ -12,6 +12,12 @@ class Hand {
       manager.manage(this);
     }
   }
+
+  List<Card> getSuiteCards(String suite) =>
+      List.unmodifiable(cards.where((card) => card.suite == suite));
+
+  List<Card> getValueCards(int value) =>
+      List.unmodifiable(cards.where((card) => card.value == value));
 }
 
 /// A set of [Hand]s that enforces rules between them.

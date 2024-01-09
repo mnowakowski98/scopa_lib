@@ -22,7 +22,7 @@ void main() {
   }
 
   // Turn loop
-  RoundState? state;
+  bool? state;
   do {
     // Output info for the turn
     stdout.writeln('Current player: ${round.currentPlayer?.name}');
@@ -55,5 +55,5 @@ void main() {
       ];
       state = round.play(playCard, matchCards);
     }
-  } while (state != RoundState.ending);
+  } while (state == true);
 }

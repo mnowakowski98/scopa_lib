@@ -7,8 +7,13 @@ class ScopaRound {
   final HandManager _manager;
   final ScopaTable _table;
 
-  final playerHands = <Player, Hand>{};
-  final captureHands = <Player, Hand>{};
+  final _playerHands = <Player, Hand>{};
+  final _captureHands = <Player, Hand>{};
+  final _scopas = <Player, int>{};
+
+  Map<Player, Hand> get playerHands => Map.unmodifiable(_playerHands);
+  Map<Player, Hand> get captureHands => Map.unmodifiable(_captureHands);
+  Map<Player, int> get scopas => Map.unmodifiable(_scopas);
 
   var _currentPlayerIndex = 0;
 
@@ -18,8 +23,9 @@ class ScopaRound {
 
   ScopaRound(this._manager, this._table) {
     for (final seat in _table.seats) {
-      playerHands[seat.player!] = Hand(_manager);
-      captureHands[seat.player!] = Hand(_manager);
+      _playerHands[seat.player!] = Hand(_manager);
+      _captureHands[seat.player!] = Hand(_manager);
+      _scopas[seat.player!] = 0;
     }
   }
 
@@ -47,29 +53,48 @@ class ScopaRound {
 
   bool _validatePlayCard(Card playCard) =>
       playerHands[currentPlayer]!.cards.contains(playCard);
+
   bool _validateMatchCards(List<Card> matchCards) {
-    bool areValid = true;
+    var areInRoundHand = true;
     for (final card in matchCards) {
       if (_table.round.cards.contains(card) == false) {
-        areValid = false;
+        areInRoundHand = false;
         break;
       }
     }
-    return areValid;
+
+    return areInRoundHand;
   }
 
+  /// Checks if [Card]s can make a valid play
   bool validatePlay(Card playCard, [List<Card>? matchCards]) {
-    bool isValidPlayCard = _validatePlayCard(playCard);
-    bool isValidMatchCards = true;
+    final isValidPlayCard = _validatePlayCard(playCard);
+    var isValidMatchCards = true;
     if (matchCards != null && matchCards.isNotEmpty) {
       isValidMatchCards = _validateMatchCards(matchCards);
+      final cardsSummate = matchCards.fold(
+              0, (previousValue, element) => previousValue + element.value) ==
+          playCard.value;
+      isValidMatchCards = isValidMatchCards && cardsSummate;
     }
     return isValidPlayCard && isValidMatchCards;
   }
 
-  /// Play a turn for the current player
-  RoundState play(Card playCard, [List<Card>? matchCards]) {
-    if (currentPlayer == null) return RoundState.ending;
+  bool _endRound() {
+    for (final hand in playerHands.values) {
+      _manager.unmanage(hand);
+    }
+    for (final hand in captureHands.values) {
+      _manager.unmanage(hand);
+    }
+
+    return false;
+  }
+
+  /// Play a turn for the current player.
+  /// Returns true if the round is continuing, false if ending
+  bool play(Card playCard, [List<Card>? matchCards]) {
+    if (currentPlayer == null) return false;
 
     if (_validatePlayCard(playCard) == false) {
       throw StateError(
@@ -111,32 +136,32 @@ class ScopaRound {
 
     if (canRedealPlayers == false && playerHandsAreEmpty == true) {
       // TODO: Capture round cards to player that last captured
-
-      for (final hand in playerHands.values) {
-        _manager.unmanage(hand);
-      }
-      for (final hand in captureHands.values) {
-        _manager.unmanage(hand);
-      }
-
-      // TODO: Make everything as read only as possible
-      return RoundState.ending;
+      return _endRound();
     }
 
     // Redeal players if needed
-    if (canRedealPlayers == true && playerHandsAreEmpty == true) {
+    if (canRedealPlayers && playerHandsAreEmpty) {
       dealPlayers();
     }
 
+    final canRedealRound = _table.pool.cards.length >= 4;
+
+    // Check if capture was a scopa
+    if (_table.round.cards.isEmpty) {
+      final oldScopas = _scopas[currentPlayer]!;
+      _scopas[currentPlayer!] = oldScopas + 1;
+      if (canRedealRound == false) {
+        return _endRound();
+      } else {
+        dealRound();
+      }
+    }
+
+    // Select the next player
     if (++_currentPlayerIndex == _table.seats.length) {
       _currentPlayerIndex = 0;
     }
 
-    // Check if capture was a scopa
-    if (_table.round.cards.isEmpty) {
-      return RoundState.scopa;
-    }
-
-    return RoundState.next;
+    return true;
   }
 }

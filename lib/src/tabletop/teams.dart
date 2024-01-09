@@ -13,27 +13,18 @@ interface class Player {
   int get hashCode => name.hashCode;
 }
 
-/// A collection of [Player]s and a shared [score].
+/// A collection of [Player]s
 class Team {
-  int _score = 0;
-  final _players = <Player>[];
-  final String name;
-
   Team.players(List<Player> players, {this.name = ''}) {
     final uniquePlayers = <Player>{};
     players.retainWhere((element) => uniquePlayers.add(element));
     _players.addAll(players);
   }
 
-  /// The current score for the [Team].
-  int get score => _score;
+  final _players = <Player>[];
 
   /// A list of unique [Player]s.
   List<Player> get players => List.unmodifiable(_players);
 
-  /// Add to the [Team]s current [score].
-  bool incrementScore(int by) {
-    _score += by;
-    return _score >= 11;
-  }
+  final String name;
 }
