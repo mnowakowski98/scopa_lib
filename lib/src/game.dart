@@ -155,8 +155,45 @@ class Game {
       _teamScores[playerTeams[player]!] = oldScore + 1;
     }
 
-    //for (final )
+    // Add point for fishing the highest prime
+    final primeScores = <Player, int>{};
+    for (final player in playerTeams.keys) {
+      primeScores[player] = manager.deck.suites.fold(
+          0,
+          (playerPrimeScore, suite) => round.captureHands[player]!
+              .getSuiteCards(suite)
+              .fold(
+                  0,
+                  (suiteHighestPrimeValue, card) =>
+                      _primeValues[card.value]! > suiteHighestPrimeValue
+                          ? _primeValues[card.value]!
+                          : suiteHighestPrimeValue));
+    }
 
+    final highestPrimeScorePlayer = primeScores.entries.fold<Player?>(null,
+        (previousValue, playerPrimeScore) {
+      if (previousValue == null) return playerPrimeScore.key;
+
+      if (playerPrimeScore.value == primeScores[previousValue]) {
+        isTied = true;
+        return previousValue;
+      }
+
+      if (playerPrimeScore.value > primeScores[previousValue]!) {
+        isTied = false;
+        return playerPrimeScore.key;
+      }
+
+      return previousValue;
+    });
+
+    if (highestPrimeScorePlayer != null && isTied == false) {
+      final team = playerTeams[highestPrimeScorePlayer]!;
+      final oldScore = teamScores[team]!;
+      _teamScores[team] = oldScore + 1;
+    }
+
+    // Return any winning teams
     final winningTeams =
         teamScores.entries.where((element) => element.value >= 11);
 
