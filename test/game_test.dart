@@ -224,7 +224,9 @@ void main() {
         expect(game.scoreRound(round), contains(team));
       });
 
-      test('returns a collection of teams if winning teams have tied', () {});
+      test('returns a collection of teams if winning teams have tied', () {
+        // TODO: Implement this test when not dead
+      });
     });
   });
 }

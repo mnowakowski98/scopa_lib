@@ -1,12 +1,13 @@
 ## 0.6.0
 - Game now tracks team scoring.
-   - Returns winners on score.
+   - Returns winners if any on score.
    - Rounds now track the number of scopas each player made.
 - Round hand now redeals when a play empties it.
 - Fixed error with round trying to deal from an empty pool.
    - Round now ends when player hands are empty and there aren't enough pool cards.
 - Made round state exports unmodifiable
 - Changed play function signature to return true/false if the round is continuing.
+- Added functions to get cards by suite or value that are present in a hand.
 
 ## 0.5.4
 - Made cards shuffle on pool hand reset.
