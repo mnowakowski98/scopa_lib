@@ -11,6 +11,27 @@ void main() {
     Card('denari', 4),
   });
 
+  group('Hand', () {
+    test('can get all cards of a given suite', () {
+      final hand = Hand();
+      hand.cards
+          .addAll([Card('Bastoni', 7), Card('Bastoni', 8), Card('Denari', 7)]);
+
+      final suiteCards = hand.getSuiteCards('Bastoni');
+      expect(suiteCards, hasLength(2));
+      expect(suiteCards, containsAll([Card('Bastoni', 7), Card('Bastoni', 8)]));
+    });
+    test('can get all cards of a given value', () {
+      final hand = Hand();
+      hand.cards
+          .addAll([Card('Bastoni', 7), Card('Bastoni', 8), Card('Denari', 7)]);
+
+      final valueCards = hand.getValueCards(7);
+      expect(valueCards, hasLength(2));
+      expect(valueCards, containsAll([Card('Bastoni', 7), Card('Denari', 7)]));
+    });
+  });
+
   group('Hand management', () {
     test('can add cards to hands', () {
       final manager = HandManager(testDeck);
