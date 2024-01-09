@@ -4,6 +4,19 @@ library;
 import 'package:scopa_lib/scopa_lib.dart';
 import 'package:scopa_lib/tabletop_lib.dart';
 
+const Map<int, int> _primeValues = {
+  7: 21,
+  6: 18,
+  1: 16,
+  5: 15,
+  4: 14,
+  3: 13,
+  2: 12,
+  8: 10,
+  9: 10,
+  10: 10
+};
+
 /// Driving class for the Scopa game.
 class Game {
   final manager = HandManager(ScopaDeck.instance);
@@ -121,7 +134,7 @@ class Game {
       return currentIsGreater ? element.value : previousValue;
     });
 
-    if (isTied == false) {
+    if (isTied == false && coppeHands.isNotEmpty) {
       final player = coppeHands.entries
           .firstWhere((element) => element.value == mostCoppes)
           .key;
@@ -142,7 +155,7 @@ class Game {
       _teamScores[playerTeams[player]!] = oldScore + 1;
     }
 
-    // TODO: Add point for fishing the highest prime
+    //for (final )
 
     final winningTeams =
         teamScores.entries.where((element) => element.value >= 11);

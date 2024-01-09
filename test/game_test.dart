@@ -142,7 +142,7 @@ void main() {
         final round = ScopaRound(game.manager, game.table);
         round.resetPool();
 
-        game.manager.dealAll([Card('Coppe', 7)], round.captureHands[player1]!);
+        game.manager.deal(Card('Coppe', 7), round.captureHands[player1]!);
 
         game.manager.dealAll([
           Card('Coppe', 1),
@@ -156,9 +156,33 @@ void main() {
         expect(game.teamScores[team], equals(1));
       });
 
+      test('awards a point for fishing the highest prime', () {
+        final player1 = Player('Player 1');
+        final player2 = Player('Player 2');
+        final team = Team.players([player1]);
+        final game = Game([
+          team,
+          Team.players([player2])
+        ]);
+        final round = ScopaRound(game.manager, game.table);
+        round.resetPool();
+
+        game.manager.dealAll([
+          Card('Spade', 7),
+          Card('Denari', 7),
+        ], round.captureHands[player1]!);
+
+        game.manager.dealAll([
+          Card('Bastoni', 7),
+          Card('Denari', 2),
+        ], round.captureHands[player2]!);
+
+        game.scoreRound(round);
+        expect(game.teamScores[team], equals(1));
+      });
+
       // TODO: Implement the rest of these tests
-      test('awards a point for fishing the highest prime', () {});
-      test('returns nothing in no team has won', () {});
+      test('returns nothing if no team has won', () {});
       test('returns a team if the team has won', () {});
       test('returns a collection of teams if winning teams have tied', () {});
     });
