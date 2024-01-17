@@ -1,4 +1,9 @@
+## 0.6.1
+
+- Round now awards extra round cards to player that last captured.
+
 ## 0.6.0
+
 - Game now tracks team scoring.
    - Returns winners if any on score.
    - Rounds now track the number of scopas each player made.
@@ -10,15 +15,19 @@
 - Added functions to get cards by suite or value that are present in a hand.
 
 ## 0.5.4
+
 - Made cards shuffle on pool hand reset.
 
 ## 0.5.3
+
 - Added validation to ensure that played cards are in the correct hands.
 
 ## 0.5.2
+
 - Added validation to ensure that played cards are in the correct hands.
 
 ## 0.5.2
+
 - Fixed an error with playing a round when there are no players.
 
 ## 0.5.1

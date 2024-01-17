@@ -16,6 +16,7 @@ class ScopaRound {
   Map<Player, int> get scopas => Map.unmodifiable(_scopas);
 
   var _currentPlayerIndex = 0;
+  Player? _lastCapturePlayer;
 
   /// The [Player] that the next call to [play] will use.
   Player? get currentPlayer =>
@@ -110,14 +111,8 @@ class ScopaRound {
             'Match cards contain cards that are not in the round hand.');
       }
 
-      // Capture a single matching card
-      if (matchCards.length == 1) {
-        _manager.deal(playCard, captureHands[currentPlayer]!);
-        _manager.deal(matchCards[0], captureHands[currentPlayer]!);
-      }
-
       // Capture multiple summating cards
-      if (matchCards.length > 1) {
+      if (matchCards.isNotEmpty) {
         final matchSum = matchCards.fold(
             0, (previousValue, element) => previousValue + element.value);
         if (matchSum != playCard.value) throw ArgumentError();
@@ -126,6 +121,7 @@ class ScopaRound {
         for (final card in matchCards) {
           _manager.deal(card, captureHands[currentPlayer]!);
         }
+        _lastCapturePlayer = currentPlayer;
       }
     }
 
@@ -135,7 +131,10 @@ class ScopaRound {
         playerHands.values.every((hand) => hand.cards.isEmpty);
 
     if (canRedealPlayers == false && playerHandsAreEmpty == true) {
-      // TODO: Capture round cards to player that last captured
+      if (_lastCapturePlayer != null) {
+        _manager.dealAll(
+            _table.round.cards, _captureHands[_lastCapturePlayer]!);
+      }
       return _endRound();
     }
 
@@ -158,7 +157,8 @@ class ScopaRound {
     }
 
     // Select the next player
-    if (++_currentPlayerIndex == _table.seats.length) {
+    _currentPlayerIndex++;
+    if (_currentPlayerIndex >= _table.seats.length) {
       _currentPlayerIndex = 0;
     }
 
